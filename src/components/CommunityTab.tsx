@@ -124,16 +124,6 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center mb-8">
-            {onBack && (
-              <Button 
-                variant="ghost" 
-                onClick={onBack}
-                className="mr-4"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                홈으로
-              </Button>
-            )}
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">커뮤니티</h1>
               <p className="text-gray-600">함께 성장하고, 서로 도우며 실력을 향상시켜요</p>

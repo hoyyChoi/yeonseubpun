@@ -11,7 +11,8 @@ const GrassChart = () => {
     const data: ActivityData[] = [];
     const today = new Date();
     
-    for (let i = 364; i >= 0; i--) {
+    // 2개월 (60일) 데이터만 생성
+    for (let i = 59; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
@@ -36,14 +37,13 @@ const GrassChart = () => {
   const getTooltip = (item: ActivityData) => {
     const date = new Date(item.date);
     const dateStr = date.toLocaleDateString('ko-KR', { 
-      year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
     });
     return `${dateStr}: ${item.count}문제`;
   };
 
-  // 주별로 그룹화
+  // 주별로 그룹화 (8-9주 정도)
   const weeks: ActivityData[][] = [];
   for (let i = 0; i < data.length; i += 7) {
     weeks.push(data.slice(i, i + 7));
@@ -51,15 +51,15 @@ const GrassChart = () => {
 
   return (
     <Card className="border-0 shadow-sm">
-      <CardHeader>
+      <CardHeader className="pb-3">
         <CardTitle className="text-lg">학습 현황</CardTitle>
-        <p className="text-sm text-gray-600">지난 1년간의 문제 풀이 기록</p>
+        <p className="text-sm text-gray-600">최근 2개월간의 문제 풀이 기록</p>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <div className="grid grid-cols-53 gap-1 min-w-[700px]">
+          <div className="flex gap-1 min-w-fit">
             {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="grid grid-rows-7 gap-1">
+              <div key={weekIndex} className="flex flex-col gap-1">
                 {week.map((day, dayIndex) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}
@@ -72,7 +72,7 @@ const GrassChart = () => {
           </div>
         </div>
         
-        <div className="flex items-center justify-between mt-6 text-xs text-gray-500">
+        <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
           <span>적음</span>
           <div className="flex items-center space-x-1">
             <div className="w-3 h-3 bg-gray-100 border border-gray-200 rounded-sm"></div>
