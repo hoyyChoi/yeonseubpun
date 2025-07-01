@@ -1,120 +1,87 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar } from "lucide-react";
+
+interface ActivityData {
+  date: string;
+  count: number;
+}
 
 const GrassChart = () => {
-  // 잔디 데이터 생성 (지난 100일)
-  const generateGrassData = () => {
-    const data = [];
+  // Generate sample data for the last 365 days
+  const generateGrassData = (): ActivityData[] => {
+    const data: ActivityData[] = [];
     const today = new Date();
     
-    for (let i = 99; i >= 0; i--) {
+    for (let i = 364; i >= 0; i--) {
       const date = new Date(today);
-      date.setDate(date.getDate() - i);
+      date.setDate(today.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
       
-      // 랜덤하게 활동 레벨 생성 (0: 없음, 1-4: 활동 레벨)
-      const activity = Math.random() > 0.7 ? Math.floor(Math.random() * 4) + 1 : 0;
-      
-      data.push({
-        date: date.toISOString().split('T')[0],
-        activity,
-        day: date.getDay(),
-        week: Math.floor(i / 7)
-      });
+      // Random activity count (0-4)
+      const count = Math.random() > 0.7 ? Math.floor(Math.random() * 4) + 1 : 0;
+      data.push({ date: dateStr, count });
     }
     
     return data;
   };
 
-  const grassData = generateGrassData();
-  
-  const getActivityColor = (activity: number) => {
-    const colors = [
-      'bg-gray-100', // 0: 활동 없음
-      'bg-green-200', // 1: 낮은 활동
-      'bg-green-400', // 2: 보통 활동
-      'bg-green-600', // 3: 높은 활동
-      'bg-green-800'  // 4: 매우 높은 활동
-    ];
-    return colors[activity];
+  const data = generateGrassData();
+
+  const getIntensity = (count: number) => {
+    if (count === 0) return "bg-gray-100";
+    if (count === 1) return "bg-green-200";
+    if (count === 2) return "bg-green-300";
+    if (count === 3) return "bg-green-400";
+    return "bg-green-500";
   };
 
-  // 주별로 그룹화
-  const weeklyData = grassData.reduce((acc, day) => {
-    if (!acc[day.week]) acc[day.week] = [];
-    acc[day.week].push(day);
-    return acc;
-  }, {} as { [key: number]: typeof grassData });
+  const getTooltip = (item: ActivityData) => {
+    const date = new Date(item.date);
+    const dateStr = date.toLocaleDateString('ko-KR', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    return `${dateStr}: ${item.count}문제`;
+  };
 
-  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+  // Group data by weeks
+  const weeks: ActivityData[][] = [];
+  for (let i = 0; i < data.length; i += 7) {
+    weeks.push(data.slice(i, i + 7));
+  }
 
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader>
-        <CardTitle className="flex items-center text-lg">
-          <Calendar className="w-5 h-5 mr-2 text-green-600" />
-          학습 잔디
-        </CardTitle>
+        <CardTitle className="text-lg">학습 현황</CardTitle>
+        <p className="text-sm text-gray-600">지난 1년간의 문제 풀이 기록</p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
-          {/* 요일 라벨 */}
-          <div className="flex">
-            <div className="w-6"></div>
-            {weekDays.map((day, index) => (
-              <div key={index} className="w-3 h-3 flex items-center justify-center text-xs text-gray-500 mr-1">
-                {index % 2 === 1 ? day : ''}
-              </div>
-            ))}
-          </div>
-
-          {/* 잔디 그리드 */}
-          <div className="flex">
-            {/* 월 라벨 영역 */}
-            <div className="w-6 flex flex-col justify-around text-xs text-gray-500">
-              <span>3월</span>
-              <span>4월</span>
-              <span>5월</span>
-            </div>
-            
-            {/* 잔디 데이터 */}
-            <div className="flex flex-wrap">
-              {Object.values(weeklyData).map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col mr-1">
-                  {Array.from({ length: 7 }, (_, dayIndex) => {
-                    const dayData = week.find(d => d.day === dayIndex);
-                    return (
-                      <div
-                        key={dayIndex}
-                        className={`w-3 h-3 rounded-sm mb-1 ${
-                          dayData ? getActivityColor(dayData.activity) : 'bg-gray-100'
-                        }`}
-                        title={dayData ? `${dayData.date}: ${dayData.activity}문제 해결` : '활동 없음'}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 범례 */}
-          <div className="flex items-center justify-between text-xs text-gray-500 mt-4">
-            <span>적음</span>
-            <div className="flex space-x-1">
-              {[0, 1, 2, 3, 4].map((level) => (
+        <div className="space-y-1">
+          {weeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="flex space-x-1">
+              {week.map((day, dayIndex) => (
                 <div
-                  key={level}
-                  className={`w-3 h-3 rounded-sm ${getActivityColor(level)}`}
+                  key={`${weekIndex}-${dayIndex}`}
+                  className={`w-3 h-3 rounded-sm ${getIntensity(day.count)}`}
+                  title={getTooltip(day)}
                 />
               ))}
             </div>
-            <span>많음</span>
+          ))}
+        </div>
+        
+        <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
+          <span>적음</span>
+          <div className="flex space-x-1">
+            <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
+            <div className="w-3 h-3 bg-green-200 rounded-sm"></div>
+            <div className="w-3 h-3 bg-green-300 rounded-sm"></div>
+            <div className="w-3 h-3 bg-green-400 rounded-sm"></div>
+            <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
           </div>
-
-          <div className="text-center text-sm text-gray-600 mt-4">
-            지난 100일 동안 <strong className="text-green-600">47일</strong> 활동
-          </div>
+          <span>많음</span>
         </div>
       </CardContent>
     </Card>
