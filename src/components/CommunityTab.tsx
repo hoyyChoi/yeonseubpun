@@ -1,14 +1,22 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TrendingUp, Users, Star, Calendar, Target, Trophy, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { TrendingUp, Users, Star, Calendar, Target, Trophy, ArrowLeft, MessageCircle, ThumbsUp, ThumbsDown, Send } from "lucide-react";
+import ChallengeModal from "./ChallengeModal";
 
 interface CommunityTabProps {
   onBack?: () => void;
 }
 
 const CommunityTab = ({ onBack }: CommunityTabProps) => {
+  const [selectedChallenge, setSelectedChallenge] = useState(null);
+  const [showChallengeModal, setShowChallengeModal] = useState(false);
+  const [newComment, setNewComment] = useState("");
+
   const wrongAnswers = [
     {
       question: "JavaScript 클로저란 무엇인가요?",
@@ -60,6 +68,34 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
     }
   ];
 
+  const discussions = [
+    {
+      id: 1,
+      question: "JavaScript 클로저 문제",
+      content: "이 문제 정말 어렵네요. 클로저 개념이 헷갈려요.",
+      author: "개발자김씨",
+      time: "2시간 전",
+      likes: 12,
+      dislikes: 2,
+      comments: [
+        { author: "코딩마스터", content: "저도 처음에 어려웠는데, 실행 컨텍스트를 이해하면 도움이 돼요!", time: "1시간 전" },
+        { author: "알고리즘러버", content: "MDN 문서 참고하시면 좋은 예제들이 많아요", time: "30분 전" }
+      ]
+    },
+    {
+      id: 2,
+      question: "HTTP/HTTPS 차이점 문제",
+      content: "보안 관련 부분이 너무 복잡해요. 좀 더 쉬운 설명 있을까요?",
+      author: "신입개발자",
+      time: "4시간 전",
+      likes: 8,
+      dislikes: 0,
+      comments: [
+        { author: "보안전문가", content: "SSL/TLS 인증서 개념부터 차근차근 공부해보세요!", time: "3시간 전" }
+      ]
+    }
+  ];
+
   const recommendations = [
     {
       title: "당신을 위한 맞춤 문제",
@@ -70,6 +106,18 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
       ]
     }
   ];
+
+  const handleChallengeClick = (challenge) => {
+    setSelectedChallenge(challenge);
+    setShowChallengeModal(true);
+  };
+
+  const handleCommentSubmit = (discussionId) => {
+    if (newComment.trim()) {
+      console.log(`댓글 추가: ${newComment} to discussion ${discussionId}`);
+      setNewComment("");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -93,8 +141,9 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
           </div>
 
           <Tabs defaultValue="challenges" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsList className="grid w-full grid-cols-5 mb-8">
               <TabsTrigger value="challenges">챌린지</TabsTrigger>
+              <TabsTrigger value="discussions">토론</TabsTrigger>
               <TabsTrigger value="wrong-answers">틀린 문제</TabsTrigger>
               <TabsTrigger value="recommendations">추천</TabsTrigger>
               <TabsTrigger value="community">커뮤니티</TabsTrigger>
@@ -141,6 +190,7 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
                       <Button 
                         className={`w-full ${challenge.joined ? 'bg-green-600 hover:bg-green-700' : ''}`}
                         variant={challenge.joined ? "default" : "outline"}
+                        onClick={() => handleChallengeClick(challenge)}
                       >
                         {challenge.joined ? "계속하기" : "참여하기"}
                       </Button>
@@ -148,6 +198,72 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
                   </Card>
                 ))}
               </div>
+            </TabsContent>
+
+            <TabsContent value="discussions" className="space-y-6">
+              <Card className="border-0 shadow-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <MessageCircle className="w-5 h-5 mr-2 text-blue-500" />
+                    문제 토론
+                  </CardTitle>
+                  <p className="text-sm text-gray-600">어려운 문제에 대해 함께 이야기해보세요</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {discussions.map((discussion) => (
+                      <div key={discussion.id} className="border border-gray-200 rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h3 className="font-medium text-gray-900">{discussion.question}</h3>
+                            <p className="text-sm text-gray-600 mt-1">{discussion.content}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
+                          <span>{discussion.author} • {discussion.time}</span>
+                          <div className="flex items-center space-x-4">
+                            <button className="flex items-center space-x-1 hover:text-green-600">
+                              <ThumbsUp className="w-4 h-4" />
+                              <span>{discussion.likes}</span>
+                            </button>
+                            <button className="flex items-center space-x-1 hover:text-red-600">
+                              <ThumbsDown className="w-4 h-4" />
+                              <span>{discussion.dislikes}</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          {discussion.comments.map((comment, commentIndex) => (
+                            <div key={commentIndex} className="bg-gray-50 p-3 rounded-lg ml-4">
+                              <p className="text-sm text-gray-800">{comment.content}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {comment.author} • {comment.time}
+                              </p>
+                            </div>
+                          ))}
+                          
+                          <div className="flex space-x-2 ml-4">
+                            <Input
+                              placeholder="댓글을 입력하세요..."
+                              value={newComment}
+                              onChange={(e) => setNewComment(e.target.value)}
+                              className="flex-1 text-sm"
+                            />
+                            <Button 
+                              size="sm"
+                              onClick={() => handleCommentSubmit(discussion.id)}
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="wrong-answers" className="space-y-6">
@@ -292,6 +408,12 @@ const CommunityTab = ({ onBack }: CommunityTabProps) => {
           </Tabs>
         </div>
       </div>
+
+      <ChallengeModal 
+        isOpen={showChallengeModal}
+        onClose={() => setShowChallengeModal(false)}
+        challenge={selectedChallenge}
+      />
     </div>
   );
 };
