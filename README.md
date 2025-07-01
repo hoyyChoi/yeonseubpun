@@ -1,73 +1,47 @@
-# Welcome to your Lovable project
+# 🌟 연습푼 – 하루 한 문제, 면접 감각을 살리는 AI 면접 연습 플랫폼
 
-## Project info
+[👉 서비스 바로가기](https://interview-spark-garden.lovable.app/)
 
-**URL**: https://lovable.dev/projects/3f2da422-d4b9-4d7c-91b2-a7acd3a0353a
+> 기술 면접도 백준처럼 풀고 연습하자!  
+> 카테고리·난이도별 문제 제공 → 텍스트 답변 → AI 평가 및 피드백  
+> 연속 학습 기록, 성장 그래프, 등급 시스템까지! ✨
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📸 데모 화면
 
-**Use Lovable**
+![연습푼 홈화면](https://velog.velcdn.com/images/chy8165/post/74bf6365-e39f-4eb1-89dc-6bfe4f765e0a/image.png)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3f2da422-d4b9-4d7c-91b2-a7acd3a0353a) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🧑‍💻 페르소나
 
-**Use your preferred IDE**
+| 이름                    | 직무                   | 상황                | 니즈                                                          |
+| ----------------------- | ---------------------- | ------------------- | ------------------------------------------------------------- |
+| 지원자 현우 (24세)      | 백엔드 개발자 지망생   | 취업 면접 준비 중   | 실전과 유사한 면접 문제로 매일 연습하고 싶음                  |
+| 이직러 지은 (29세)      | 프론트엔드 개발자      | 기술 면접 대비 중   | JS/React 관련 면접 대비, 내 답변이 잘된 건지 피드백 받고 싶음 |
+| 신입 입사자 태훈 (26세) | 인턴십 합격 후 연습 중 | 면접 감각 유지 필요 | 하루 1문제 루틴으로 공부하면서 약점도 알고 싶음               |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📚 사용자 스토리 (User Story)
 
-Follow these steps:
+### 1. 하루 한 문제로 감각 유지하고 싶은 개발자
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- 출근 전 10분, ‘오늘의 문제’를 눌러 JavaScript 질문을 받는다.
+- 답변을 작성한 후, AI가 83점을 주고 ‘조금 더 구체적인 경험 예시 추가’를 추천한다.
+- 오늘도 잔디가 한 칸 채워졌고, 연속 학습 7일째 달성!
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. 나의 약점 분석과 성장 확인이 중요한 사용자
 
-# Step 3: Install the necessary dependencies.
-npm i
+- 지난주보다 점수가 떨어졌다는 알림과 함께 ‘네트워크’ 분야가 약하다는 피드백을 받았다.
+- 곧바로 해당 카테고리의 문제를 선택해 다시 풀고 평균 점수가 12% 상승했다.
+- 현재 등급은 ‘실버’, 골드까지 33% 남았다고 표시된다.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🧩 주요 기능
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3f2da422-d4b9-4d7c-91b2-a7acd3a0353a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- ✅ 카테고리별 / 난이도별 기술 면접 문제 제공 (JavaScript, Python, OS, 네트워크 등)
+- ✍️ 사용자가 답변 작성 → AI가 점수화 및 피드백 제공 (정확도, 논리성, 구성력)
+- 🔁 꼬리 질문 자동 생성, 다시 풀기 기능 지원
+- 🏅 등급 시스템: 브론즈 → 실버 → 골드 → 플래티넘
+- 📈 성장 트래킹: 주간 목표, 연속 학습 잔디, 평균 점수 변화 시각화
