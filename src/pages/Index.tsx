@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Trophy, Calendar, Target, Zap, Users, Star } from "lucide-react";
+import { BookOpen, Code, Trophy, Calendar, Target, Zap, Users, Star, User } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CategorySelector from "@/components/CategorySelector";
 import DifficultySelector from "@/components/DifficultySelector";
 import QuestionCard from "@/components/QuestionCard";
@@ -11,9 +12,11 @@ import GrassChart from "@/components/GrassChart";
 import UserStats from "@/components/UserStats";
 import OnboardingModal from "@/components/OnboardingModal";
 import CommunityTab from "@/components/CommunityTab";
+import MyPage from "@/components/MyPage";
+import CategoryProblems from "@/components/CategoryProblems";
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<'home' | 'category' | 'difficulty' | 'question'>('home');
+  const [currentStep, setCurrentStep] = useState<'home' | 'category' | 'difficulty' | 'question' | 'community' | 'mypage' | 'category-problems'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'home' | 'community'>('home');
@@ -53,6 +56,16 @@ const Index = () => {
     setActiveTab('home');
   };
 
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setCurrentStep('category-problems');
+  };
+
+  const handleSelectProblem = (problemId: string) => {
+    setSelectedDifficulty('보통'); // 기본값
+    setCurrentStep('question');
+  };
+
   if (currentStep === 'category') {
     return <CategorySelector onSelect={handleCategorySelect} onBack={handleBackToHome} />;
   }
@@ -74,8 +87,20 @@ const Index = () => {
     />;
   }
 
-  if (activeTab === 'community') {
-    return <CommunityTab />;
+  if (currentStep === 'community') {
+    return <CommunityTab onBack={handleBackToHome} />;
+  }
+
+  if (currentStep === 'mypage') {
+    return <MyPage onBack={handleBackToHome} />;
+  }
+
+  if (currentStep === 'category-problems') {
+    return <CategoryProblems 
+      category={selectedCategory} 
+      onBack={handleBackToHome}
+      onSelectProblem={handleSelectProblem}
+    />;
   }
 
   return (
@@ -84,7 +109,10 @@ const Index = () => {
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={handleBackToHome}
+            >
               <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Code className="w-5 h-5 text-white" />
               </div>
@@ -97,7 +125,14 @@ const Index = () => {
             </div>
             
             {/* Navigation */}
-            <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'home' | 'community')} className="w-auto">
+            <Tabs value={activeTab} onValueChange={(value) => {
+              setActiveTab(value as 'home' | 'community');
+              if (value === 'community') {
+                setCurrentStep('community');
+              } else {
+                setCurrentStep('home');
+              }
+            }} className="w-auto">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="home" className="flex items-center space-x-2">
                   <BookOpen className="w-4 h-4" />
@@ -123,7 +158,15 @@ const Index = () => {
                 <Trophy className="w-3 h-3 mr-1" />
                 실버
               </Badge>
-              <div className="w-8 h-8 bg-gradient-to-r from-indigo-400 to-purple-600 rounded-full"></div>
+              <Avatar 
+                className="w-8 h-8 cursor-pointer"
+                onClick={() => setCurrentStep('mypage')}
+              >
+                <AvatarImage src="/placeholder.svg" />
+                <AvatarFallback className="bg-gradient-to-r from-indigo-400 to-purple-600 text-white">
+                  <User className="w-4 h-4" />
+                </AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </div>
@@ -193,16 +236,20 @@ const Index = () => {
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: 'JavaScript', icon: '🟨', count: 156, popular: true },
-                  { name: 'Python', icon: '🐍', count: 142, popular: true },
-                  { name: 'OS', icon: '💻', count: 89, popular: false },
-                  { name: '네트워크', icon: '🌐', count: 73, popular: false },
-                  { name: 'Database', icon: '🗄️', count: 95, popular: false },
-                  { name: 'Algorithm', icon: '🧮', count: 128, popular: true },
-                  { name: 'System Design', icon: '🏗️', count: 64, popular: false },
-                  { name: 'Security', icon: '🔐', count: 47, popular: false }
+                  { name: 'JavaScript', icon: '🟨', count: 156, popular: true, id: 'javascript' },
+                  { name: 'Python', icon: '🐍', count: 142, popular: true, id: 'python' },
+                  { name: 'OS', icon: '💻', count: 89, popular: false, id: 'os' },
+                  { name: '네트워크', icon: '🌐', count: 73, popular: false, id: 'network' },
+                  { name: 'Database', icon: '🗄️', count: 95, popular: false, id: 'database' },
+                  { name: 'Algorithm', icon: '🧮', count: 128, popular: true, id: 'algorithm' },
+                  { name: 'System Design', icon: '🏗️', count: 64, popular: false, id: 'system' },
+                  { name: 'Security', icon: '🔐', count: 47, popular: false, id: 'security' }
                 ].map((category) => (
-                  <Card key={category.name} className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105 relative">
+                  <Card 
+                    key={category.name} 
+                    className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105 relative"
+                    onClick={() => handleCategoryClick(category.id)}
+                  >
                     {category.popular && (
                       <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs">인기</Badge>
                     )}

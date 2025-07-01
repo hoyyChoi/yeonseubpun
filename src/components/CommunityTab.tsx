@@ -1,11 +1,14 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TrendingUp, Users, Star, Calendar, Target, Trophy } from "lucide-react";
+import { TrendingUp, Users, Star, Calendar, Target, Trophy, ArrowLeft } from "lucide-react";
 
-const CommunityTab = () => {
+interface CommunityTabProps {
+  onBack?: () => void;
+}
+
+const CommunityTab = ({ onBack }: CommunityTabProps) => {
   const wrongAnswers = [
     {
       question: "JavaScript 클로저란 무엇인가요?",
@@ -72,9 +75,21 @@ const CommunityTab = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">커뮤니티</h1>
-            <p className="text-gray-600">함께 성장하고, 서로 도우며 실력을 향상시켜요</p>
+          <div className="flex items-center mb-8">
+            {onBack && (
+              <Button 
+                variant="ghost" 
+                onClick={onBack}
+                className="mr-4"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                홈으로
+              </Button>
+            )}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">커뮤니티</h1>
+              <p className="text-gray-600">함께 성장하고, 서로 도우며 실력을 향상시켜요</p>
+            </div>
           </div>
 
           <Tabs defaultValue="challenges" className="w-full">

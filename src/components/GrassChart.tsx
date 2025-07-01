@@ -7,7 +7,6 @@ interface ActivityData {
 }
 
 const GrassChart = () => {
-  // Generate sample data for the last 365 days
   const generateGrassData = (): ActivityData[] => {
     const data: ActivityData[] = [];
     const today = new Date();
@@ -17,7 +16,6 @@ const GrassChart = () => {
       date.setDate(today.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
       
-      // Random activity count (0-4)
       const count = Math.random() > 0.7 ? Math.floor(Math.random() * 4) + 1 : 0;
       data.push({ date: dateStr, count });
     }
@@ -45,10 +43,18 @@ const GrassChart = () => {
     return `${dateStr}: ${item.count}문제`;
   };
 
-  // Group data by weeks
-  const weeks: ActivityData[][] = [];
-  for (let i = 0; i < data.length; i += 7) {
-    weeks.push(data.slice(i, i + 7));
+  // 월별로 그룹화하여 가로 표시
+  const months: ActivityData[][] = [];
+  const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+  
+  for (let i = 0; i < 12; i++) {
+    const monthData = data.filter(item => {
+      const date = new Date(item.date);
+      return date.getMonth() === i;
+    });
+    if (monthData.length > 0) {
+      months.push(monthData);
+    }
   }
 
   return (
@@ -58,18 +64,25 @@ const GrassChart = () => {
         <p className="text-sm text-gray-600">지난 1년간의 문제 풀이 기록</p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-1">
-          {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex space-x-1">
-              {week.map((day, dayIndex) => (
-                <div
-                  key={`${weekIndex}-${dayIndex}`}
-                  className={`w-3 h-3 rounded-sm ${getIntensity(day.count)}`}
-                  title={getTooltip(day)}
-                />
-              ))}
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <div className="grid grid-cols-12 gap-1 min-w-[600px]">
+            {months.map((month, monthIndex) => (
+              <div key={monthIndex} className="space-y-1">
+                <div className="text-xs text-gray-500 text-center mb-2">
+                  {monthNames[monthIndex]}
+                </div>
+                <div className="grid grid-cols-1 gap-1">
+                  {month.slice(0, 31).map((day, dayIndex) => (
+                    <div
+                      key={`${monthIndex}-${dayIndex}`}
+                      className={`w-3 h-3 rounded-sm ${getIntensity(day.count)}`}
+                      title={getTooltip(day)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         
         <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
