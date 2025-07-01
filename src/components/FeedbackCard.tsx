@@ -18,12 +18,14 @@ interface FeedbackCardProps {
   answer: string;
   category: string;
   difficulty: string;
+  feedback: any;
   onComplete: () => void;
+  onRetry: () => void;
 }
 
-const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: FeedbackCardProps) => {
-  // AI 피드백 시뮬레이션 (실제로는 OpenAI API에서 받아올 데이터)
-  const feedback = {
+const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComplete, onRetry }: FeedbackCardProps) => {
+  // Use passed feedback data instead of simulating it
+  const feedbackData = feedback || {
     totalScore: 87,
     grade: "골드",
     gradeColor: "from-yellow-400 to-yellow-600",
@@ -73,34 +75,34 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
             <CardHeader>
               <CardTitle className="flex items-center justify-center text-2xl">
                 <Trophy className="w-6 h-6 mr-2 text-yellow-500" />
-                총 점수: {feedback.totalScore}점
+                총 점수: {feedbackData.totalScore}점
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <div className={`inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r ${feedback.gradeColor} text-white text-xl font-bold mb-4`}>
-                <span className="mr-2">{gradeEmojis[feedback.grade]}</span>
-                {feedback.grade} 등급
+              <div className={`inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r ${feedbackData.gradeColor} text-white text-xl font-bold mb-4`}>
+                <span className="mr-2">{gradeEmojis[feedbackData.grade]}</span>
+                {feedbackData.grade} 등급
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">{feedback.scores.accuracy}</div>
+                  <div className="text-2xl font-bold text-blue-600">{feedbackData.scores.accuracy}</div>
                   <div className="text-sm text-gray-500">정확성</div>
-                  <Progress value={feedback.scores.accuracy} className="mt-1 h-2" />
+                  <Progress value={feedbackData.scores.accuracy} className="mt-1 h-2" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{feedback.scores.clarity}</div>
+                  <div className="text-2xl font-bold text-green-600">{feedbackData.scores.clarity}</div>
                   <div className="text-sm text-gray-500">명확성</div>
-                  <Progress value={feedback.scores.clarity} className="mt-1 h-2" />
+                  <Progress value={feedbackData.scores.clarity} className="mt-1 h-2" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">{feedback.scores.completeness}</div>
+                  <div className="text-2xl font-bold text-purple-600">{feedbackData.scores.completeness}</div>
                   <div className="text-sm text-gray-500">완성도</div>
-                  <Progress value={feedback.scores.completeness} className="mt-1 h-2" />
+                  <Progress value={feedbackData.scores.completeness} className="mt-1 h-2" />
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">{feedback.scores.examples}</div>
+                  <div className="text-2xl font-bold text-orange-600">{feedbackData.scores.examples}</div>
                   <div className="text-sm text-gray-500">예시 활용</div>
-                  <Progress value={feedback.scores.examples} className="mt-1 h-2" />
+                  <Progress value={feedbackData.scores.examples} className="mt-1 h-2" />
                 </div>
               </div>
             </CardContent>
@@ -118,7 +120,7 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
               <div className="bg-blue-50 border-l-4 border-blue-500 p-4">
                 <h4 className="font-medium text-blue-900 mb-2">👍 잘한 점</h4>
                 <ul className="space-y-1">
-                  {feedback.improvements.slice(0, 2).map((improvement, index) => (
+                  {feedbackData.improvements.slice(0, 2).map((improvement, index) => (
                     <li key={index} className="text-blue-800 text-sm flex items-start">
                       <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-green-500" />
                       {improvement}
@@ -131,7 +133,7 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
                 <h4 className="font-medium text-amber-900 mb-2">💡 개선할 점</h4>
                 <div className="text-amber-800 text-sm flex items-start">
                   <Lightbulb className="w-4 h-4 mr-2 mt-0.5 text-amber-600" />
-                  {feedback.improvements[2]}
+                  {feedbackData.improvements[2]}
                 </div>
               </div>
             </CardContent>
@@ -146,7 +148,7 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-purple-800 mb-4">{feedback.followUpQuestion}</p>
+              <p className="text-purple-800 mb-4">{feedbackData.followUpQuestion}</p>
               <Button variant="outline" className="border-purple-300 text-purple-700 hover:bg-purple-100">
                 이 질문도 풀어보기 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -158,7 +160,7 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
             <CardContent className="p-6 text-center">
               <div className="flex items-center justify-center mb-4">
                 <Star className="w-8 h-8 text-yellow-500 mr-2" />
-                <span className="text-2xl font-bold text-gray-900">+{feedback.experienceGained} EXP</span>
+                <span className="text-2xl font-bold text-gray-900">+{feedbackData.experienceGained} EXP</span>
               </div>
               <p className="text-gray-600 mb-6">오늘의 한 문제 완료! 잔디가 하나 더 심어졌어요 🌱</p>
               
@@ -166,8 +168,8 @@ const FeedbackCard = ({ question, answer, category, difficulty, onComplete }: Fe
                 <Button onClick={onComplete} className="bg-blue-600 hover:bg-blue-700">
                   홈으로 돌아가기
                 </Button>
-                <Button variant="outline">
-                  다른 문제 풀어보기
+                <Button onClick={onRetry} variant="outline">
+                  다시 풀어보기
                 </Button>
               </div>
             </CardContent>

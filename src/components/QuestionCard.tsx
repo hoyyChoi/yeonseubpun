@@ -110,23 +110,39 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
 
     // 실제로는 서버에 답변을 전송하고 AI 분석을 받아야 합니다
     const mockFeedback = {
-      score: Math.floor(Math.random() * 30) + 70,
-      accuracy: Math.floor(Math.random() * 20) + 80,
-      clarity: Math.floor(Math.random() * 25) + 75,
-      completeness: Math.floor(Math.random() * 30) + 70,
-      feedback: "좋은 답변입니다! 클로저의 개념을 잘 이해하고 계시네요. 실제 사용 예시를 더 추가하면 더욱 완벽한 답변이 될 것 같습니다.",
-      suggestions: [
-        "실제 코드 예시를 추가해보세요",
-        "클로저의 메모리 관리 측면도 언급해보세요",
+      totalScore: Math.floor(Math.random() * 30) + 70,
+      grade: "골드",
+      gradeColor: "from-yellow-400 to-yellow-600",
+      scores: {
+        accuracy: Math.floor(Math.random() * 20) + 80,
+        clarity: Math.floor(Math.random() * 25) + 75,
+        completeness: Math.floor(Math.random() * 30) + 70,
+        examples: Math.floor(Math.random() * 20) + 80
+      },
+      improvements: [
+        "좋은 답변입니다! 클로저의 개념을 잘 이해하고 계시네요.",
+        "실제 사용 예시를 추가하면 더욱 완벽한 답변이 될 것 같습니다.",
         "실무에서 클로저를 사용한 경험을 공유해보세요"
-      ]
+      ],
+      followUpQuestion: "그렇다면 클로저를 사용할 때 메모리 누수를 방지하는 방법은 무엇인가요?",
+      experienceGained: 25
     };
 
     setFeedback(mockFeedback);
   };
 
   if (feedback) {
-    return <FeedbackCard feedback={feedback} onComplete={onComplete} onRetry={() => setFeedback(null)} />;
+    return (
+      <FeedbackCard 
+        question={currentQuestion.question}
+        answer={answer}
+        category={category}
+        difficulty={difficulty}
+        feedback={feedback}
+        onComplete={onComplete} 
+        onRetry={() => setFeedback(null)} 
+      />
+    );
   }
 
   if (!currentQuestion) {
