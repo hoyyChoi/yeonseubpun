@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Trophy, Calendar, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award } from "lucide-react";
+import { BookOpen, Code, Trophy, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import CategorySelector from "@/components/CategorySelector";
 import DifficultySelector from "@/components/DifficultySelector";
 import QuestionCard from "@/components/QuestionCard";
@@ -15,23 +16,21 @@ import OnboardingModal from "@/components/OnboardingModal";
 import CommunityTab from "@/components/CommunityTab";
 import MyPage from "@/components/MyPage";
 import CategoryProblems from "@/components/CategoryProblems";
-import StudyGroupPage from "@/components/StudyGroupPage";
 import SettingsPage from "@/components/SettingsPage";
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<'home' | 'category' | 'difficulty' | 'question' | 'community' | 'mypage' | 'category-problems' | 'study-group' | 'settings'>('home');
+  const [currentStep, setCurrentStep] = useState<'home' | 'category' | 'difficulty' | 'question' | 'community' | 'mypage' | 'category-problems' | 'settings'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'home' | 'community' | 'study-group'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'community'>('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // User stats - 중복 제거를 위해 통합
   const userStats = {
     currentGrade: "실버",
     gradeEmoji: "🥈",
     totalSolved: 23,
-    avgScore: 80, // 5점 단위로 반올림
+    avgScore: 80,
     streak: 7,
     weeklyGoal: 5,
     weeklyProgress: 3,
@@ -81,7 +80,6 @@ const Index = () => {
     setCurrentStep('question');
   };
 
-  // 헤더 고정을 위한 레이아웃 구조 개선
   const renderMainContent = () => {
     if (currentStep === 'category') {
       return <CategorySelector onSelect={handleCategorySelect} onBack={handleBackToHome} />;
@@ -120,21 +118,14 @@ const Index = () => {
       />;
     }
 
-    if (currentStep === 'study-group') {
-      return <StudyGroupPage onBack={handleBackToHome} />;
-    }
-
     if (currentStep === 'settings') {
       return <SettingsPage onBack={handleBackToHome} />;
     }
 
-    // 홈 콘텐츠
     return (
       <div className="container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Today's Challenge - 네이밍 변경 */}
             <Card className="border-0 shadow-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white overflow-hidden relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
@@ -172,38 +163,6 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* 통합된 사용자 현황 */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
-                  내 현황
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
-                    <div className="text-3xl mb-2">{userStats.gradeEmoji}</div>
-                    <div className="font-bold text-blue-900">{userStats.currentGrade}</div>
-                    <div className="text-xs text-blue-600">현재 등급</div>
-                  </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">{userStats.totalSolved}</div>
-                    <div className="text-xs text-green-600">해결한 문제</div>
-                  </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
-                    <div className="text-2xl font-bold text-purple-600">{userStats.avgScore}</div>
-                    <div className="text-xs text-purple-600">평균 점수</div>
-                  </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg">
-                    <div className="text-2xl font-bold text-orange-600">{userStats.experiencePoints}</div>
-                    <div className="text-xs text-orange-600">경험치</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 인기 기술 트렌드 */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2 text-green-500" />
@@ -234,7 +193,6 @@ const Index = () => {
               </div>
             </div>
 
-            {/* 기술 카테고리 */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <Star className="w-5 h-5 mr-2 text-yellow-500" />
@@ -267,42 +225,38 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            <GrassChart />
-            
-            {/* 빠른 액션 */}
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg">빠른 시작</CardTitle>
+                <CardTitle className="flex items-center">
+                  <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
+                  내 현황
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <Button 
-                  onClick={handleStartPractice}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <Target className="w-4 h-4 mr-2" />
-                  랜덤 문제 풀기
-                </Button>
-                <Button 
-                  onClick={() => setCurrentStep('study-group')}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  스터디 그룹
-                </Button>
-                <Button 
-                  onClick={() => setCurrentStep('settings')}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <Award className="w-4 h-4 mr-2" />
-                  AI 설정
-                </Button>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                    <div className="text-3xl mb-2">{userStats.gradeEmoji}</div>
+                    <div className="font-bold text-blue-900">{userStats.currentGrade}</div>
+                    <div className="text-xs text-blue-600">현재 등급</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                    <div className="text-2xl font-bold text-green-600">{userStats.totalSolved}</div>
+                    <div className="text-xs text-green-600">해결한 문제</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                    <div className="text-2xl font-bold text-purple-600">{userStats.avgScore}</div>
+                    <div className="text-xs text-purple-600">평균 점수</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg">
+                    <div className="text-2xl font-bold text-orange-600">{userStats.experiencePoints}</div>
+                    <div className="text-xs text-orange-600">경험치</div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
+            
+            <GrassChart />
           </div>
         </div>
       </div>
@@ -311,7 +265,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* 헤더 고정 */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -330,7 +283,6 @@ const Index = () => {
               </div>
             </div>
             
-            {/* Search Bar */}
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -343,18 +295,15 @@ const Index = () => {
               </div>
             </div>
             
-            {/* Navigation Tabs */}
             <Tabs value={activeTab} onValueChange={(value) => {
-              setActiveTab(value as 'home' | 'community' | 'study-group');
+              setActiveTab(value as 'home' | 'community');
               if (value === 'community') {
                 setCurrentStep('community');
-              } else if (value === 'study-group') {
-                setCurrentStep('study-group');
               } else {
                 setCurrentStep('home');
               }
             }} className="w-auto">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="home" className="flex items-center space-x-2">
                   <BookOpen className="w-4 h-4" />
                   <span>홈</span>
@@ -362,10 +311,6 @@ const Index = () => {
                 <TabsTrigger value="community" className="flex items-center space-x-2">
                   <Users className="w-4 h-4" />
                   <span>커뮤니티</span>
-                </TabsTrigger>
-                <TabsTrigger value="study-group" className="flex items-center space-x-2">
-                  <Trophy className="w-4 h-4" />
-                  <span>스터디</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -379,6 +324,20 @@ const Index = () => {
               >
                 도움말
               </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setCurrentStep('settings')}>
+                    AI 설정
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
               <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border-0">
                 {userStats.gradeEmoji} {userStats.currentGrade}
               </Badge>
@@ -396,10 +355,8 @@ const Index = () => {
         </div>
       </header>
 
-      {/* 메인 콘텐츠 영역 - 헤더는 고정되고 이 부분만 변경됨 */}
       {renderMainContent()}
 
-      {/* Onboarding Modal */}
       <OnboardingModal isOpen={showOnboarding} onClose={handleCloseOnboarding} />
     </div>
   );
