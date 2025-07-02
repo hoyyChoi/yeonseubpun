@@ -1,10 +1,12 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Trophy, Calendar, Target, Zap, Users, Star, User } from "lucide-react";
+import { BookOpen, Code, Trophy, Calendar, Target, Zap, Users, Star, User, Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import CategorySelector from "@/components/CategorySelector";
 import DifficultySelector from "@/components/DifficultySelector";
 import QuestionCard from "@/components/QuestionCard";
@@ -21,6 +23,7 @@ const Index = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'home' | 'community'>('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Check if user is new (you can use localStorage or other state management)
   useEffect(() => {
@@ -88,7 +91,7 @@ const Index = () => {
   }
 
   if (currentStep === 'community') {
-    return <CommunityTab onBack={handleBackToHome} />;
+    return <CommunityTab onBack={handleBackToHome} searchQuery={searchQuery} />;
   }
 
   if (currentStep === 'mypage') {
@@ -120,7 +123,20 @@ const Index = () => {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   연습푼
                 </h1>
-                <div className="text-xs text-gray-500">기술 면접 마스터하기</div>
+                <div className="text-xs text-gray-500">기술 테스트 마스터하기</div>
+              </div>
+            </div>
+            
+            {/* Search Bar */}
+            <div className="flex-1 max-w-md mx-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="문제, 토론 검색..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
               </div>
             </div>
             
@@ -211,23 +227,6 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: "해결한 문제", value: "23", color: "text-blue-600", bg: "bg-blue-50" },
-                { label: "평균 점수", value: "78", color: "text-green-600", bg: "bg-green-50" },
-                { label: "현재 등급", value: "실버", color: "text-purple-600", bg: "bg-purple-50" },
-                { label: "연속 일수", value: "7일", color: "text-orange-600", bg: "bg-orange-50" }
-              ].map((stat, index) => (
-                <Card key={index} className={`border-0 shadow-sm ${stat.bg}`}>
-                  <CardContent className="p-4 text-center">
-                    <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
-                    <div className="text-xs text-gray-600">{stat.label}</div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
             {/* Categories Grid */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
@@ -274,9 +273,9 @@ const Index = () => {
               <CardContent>
                 <div className="space-y-3">
                   {[
-                    { question: "HTTP와 HTTPS의 차이점", category: "네트워크", score: 87, grade: "골드", time: "2시간 전" },
-                    { question: "JavaScript 클로저 개념", category: "JavaScript", score: 92, grade: "플래티넘", time: "1일 전" },
-                    { question: "프로세스와 쓰레드 차이", category: "OS", score: 74, grade: "실버", time: "2일 전" }
+                    { question: "HTTP와 HTTPS의 차이점", category: "네트워크", score: 4.5, grade: "골드", time: "2시간 전" },
+                    { question: "JavaScript 클로저 개념", category: "JavaScript", score: 5, grade: "플래티넘", time: "1일 전" },
+                    { question: "프로세스와 쓰레드 차이", category: "OS", score: 3.5, grade: "실버", time: "2일 전" }
                   ].map((activity, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-lg hover:bg-gray-100 transition-colors">
                       <div className="flex-1">
@@ -290,7 +289,20 @@ const Index = () => {
                         <Badge variant="outline" className="mb-1">
                           {activity.grade}
                         </Badge>
-                        <p className="text-sm font-bold text-blue-600">{activity.score}점</p>
+                        <div className="flex items-center">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-3 h-3 ${
+                                i < Math.floor(activity.score)
+                                  ? 'text-yellow-400 fill-current'
+                                  : i < activity.score
+                                  ? 'text-yellow-400 fill-current opacity-50'
+                                  : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
                   ))}

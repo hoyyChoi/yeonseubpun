@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Mic, Video, Type, Square, Play } from "lucide-react";
+import { ArrowLeft, Mic, Video, Type, Square, Play, Clock, Save } from "lucide-react";
 import FeedbackCard from "./FeedbackCard";
 
 interface QuestionCardProps {
@@ -19,6 +19,9 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
   const [isRecording, setIsRecording] = useState(false);
   const [recordingType, setRecordingType] = useState<'text' | 'audio' | 'video'>('text');
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [startTime, setStartTime] = useState<Date>(new Date());
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const [currentScore, setCurrentScore] = useState<number>(0);
 
   const questions = {
     javascript: [
@@ -67,6 +70,54 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
 
   const currentQuestion = questions[category as keyof typeof questions]?.[0];
 
+  // Timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsedTime(Math.floor((new Date().getTime() - startTime.getTime()) / 1000));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [startTime]);
+
+  // Auto-save effect
+  useEffect(() => {
+    if (answer.trim()) {
+      localStorage.setItem(`draft_${category}_${currentQuestion?.id}`, answer);
+    }
+  }, [answer, category, currentQuestion?.id]);
+
+  // Load saved draft
+  useEffect(() => {
+    if (currentQuestion) {
+      const savedDraft = localStorage.getItem(`draft_${category}_${currentQuestion.id}`);
+      if (savedDraft) {
+        setAnswer(savedDraft);
+      }
+    }
+  }, [category, currentQuestion]);
+
+  // Real-time score calculation
+  useEffect(() => {
+    if (answer.trim()) {
+      const words = answer.trim().split(/\s+/).length;
+      const baseScore = Math.min(words * 0.5, 50);
+      const timeBonus = Math.max(0, 50 - elapsedTime * 0.1);
+      setCurrentScore(Math.min(100, baseScore + timeBonus));
+    }
+  }, [answer, elapsedTime]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const clearDraft = () => {
+    if (currentQuestion) {
+      localStorage.removeItem(`draft_${category}_${currentQuestion.id}`);
+    }
+  };
+
   const handleStartRecording = async (type: 'audio' | 'video') => {
     try {
       const constraints = type === 'audio' ? { audio: true } : { audio: true, video: true };
@@ -108,11 +159,13 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
   const handleSubmit = () => {
     if (!answer.trim() && !recordedBlob) return;
 
-    // 실제로는 서버에 답변을 전송하고 AI 분석을 받아야 합니다
+    // Generate feedback with star rating
+    const starRating = Math.ceil(Math.random() * 2) + 3; // 3-5 stars
     const mockFeedback = {
-      totalScore: Math.floor(Math.random() * 30) + 70,
-      grade: "골드",
-      gradeColor: "from-yellow-400 to-yellow-600",
+      totalScore: currentScore,
+      starRating,
+      grade: starRating >= 5 ? "플래티넘" : starRating >= 4 ? "골드" : "실버",
+      gradeColor: starRating >= 5 ? "from-gray-400 to-gray-600" : starRating >= 4 ? "from-yellow-400 to-yellow-600" : "from-gray-300 to-gray-500",
       scores: {
         accuracy: Math.floor(Math.random() * 20) + 80,
         clarity: Math.floor(Math.random() * 25) + 75,
@@ -120,15 +173,18 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
         examples: Math.floor(Math.random() * 20) + 80
       },
       improvements: [
-        "좋은 답변입니다! 클로저의 개념을 잘 이해하고 계시네요.",
+        "좋은 답변입니다! 개념을 잘 이해하고 계시네요.",
         "실제 사용 예시를 추가하면 더욱 완벽한 답변이 될 것 같습니다.",
-        "실무에서 클로저를 사용한 경험을 공유해보세요"
+        "실무에서의 경험을 공유해보세요"
       ],
+      detailedExample: "예를 들어, '함수가 선언된 렉시컬 환경'이라고 하셨는데, 이를 구체적으로 설명하면 '함수가 정의될 때의 스코프 체인과 변수 바인딩'을 의미합니다.",
       followUpQuestion: "그렇다면 클로저를 사용할 때 메모리 누수를 방지하는 방법은 무엇인가요?",
-      experienceGained: 25
+      experienceGained: 25,
+      timeSpent: elapsedTime
     };
 
     setFeedback(mockFeedback);
+    clearDraft();
   };
 
   if (feedback) {
@@ -153,14 +209,28 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center mb-8">
-            <Button variant="ghost" onClick={onBack} className="mr-4">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              뒤로가기
-            </Button>
-            <div className="flex space-x-2">
-              <Badge variant="outline">{category}</Badge>
-              <Badge variant="outline">{difficulty}</Badge>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center">
+              <Button variant="ghost" onClick={onBack} className="mr-4">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                뒤로가기
+              </Button>
+              <div className="flex space-x-2">
+                <Badge variant="outline">{category}</Badge>
+                <Badge variant="outline">{difficulty}</Badge>
+              </div>
+            </div>
+            
+            {/* Timer and Score */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-white px-3 py-1 rounded-lg shadow-sm">
+                <Clock className="w-4 h-4 text-blue-600" />
+                <span className="font-mono text-sm">{formatTime(elapsedTime)}</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-green-50 px-3 py-1 rounded-lg">
+                <span className="text-sm text-green-700">실시간 점수:</span>
+                <span className="font-bold text-green-600">{Math.round(currentScore)}</span>
+              </div>
             </div>
           </div>
 
@@ -171,7 +241,7 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* 답변 방식 선택 */}
+              {/* Answer Type Selection */}
               <div className="flex space-x-4 p-4 bg-gray-50 rounded-lg">
                 <Button
                   variant={recordingType === 'text' ? 'default' : 'outline'}
@@ -199,18 +269,35 @@ const QuestionCard = ({ category, difficulty, onBack, onComplete }: QuestionCard
                 </Button>
               </div>
 
-              {/* 답변 입력 영역 */}
+              {/* Text Answer Area */}
               {recordingType === 'text' && (
                 <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">
+                      {answer.trim().split(/\s+/).length}단어 작성됨
+                    </span>
+                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                      <Save className="w-3 h-3" />
+                      <span>자동 저장됨</span>
+                    </div>
+                  </div>
                   <Textarea
                     placeholder="답변을 입력하세요..."
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
                     className="min-h-[200px] text-base"
                   />
+                  {currentScore < 60 && answer.trim() && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                      <p className="text-amber-800 text-sm">
+                        💡 현재 점수가 60점 미만입니다. 더 자세한 설명을 추가해보세요!
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
+              {/* Recording Area */}
               {(recordingType === 'audio' || recordingType === 'video') && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-lg">

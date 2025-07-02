@@ -10,7 +10,8 @@ import {
   ArrowRight, 
   CheckCircle, 
   Lightbulb,
-  Star
+  Star,
+  Clock
 } from "lucide-react";
 
 interface FeedbackCardProps {
@@ -24,9 +25,9 @@ interface FeedbackCardProps {
 }
 
 const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComplete, onRetry }: FeedbackCardProps) => {
-  // Use passed feedback data instead of simulating it
   const feedbackData = feedback || {
     totalScore: 87,
+    starRating: 4,
     grade: "골드",
     gradeColor: "from-yellow-400 to-yellow-600",
     scores: {
@@ -38,10 +39,11 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
     improvements: [
       "구체적인 코드 예시가 훌륭합니다!",
       "실무 관점에서의 설명이 도움이 됩니다.",
-      "브라우저 호환성에 대한 언급이 있으면 더 완벽했을 것 같아요."
     ],
+    detailedExample: "예를 들어, 'let과 const의 차이점'을 설명할 때, 실제 코드로 보여주면 더욱 명확해집니다.",
     followUpQuestion: "그렇다면 let과 const가 도입되기 전 var만 있던 시절에는 개발자들이 어떤 방식으로 이런 문제들을 해결했을까요?",
-    experienceGained: 25
+    experienceGained: 25,
+    timeSpent: 180
   };
 
   const gradeEmojis: { [key: string]: string } = {
@@ -49,6 +51,12 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
     "실버": "🥈", 
     "골드": "🥇",
     "플래티넘": "💎"
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}분 ${secs}초`;
   };
 
   return (
@@ -67,18 +75,36 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
               <p className="text-green-100">
                 AI가 당신의 답변을 분석했어요. 결과를 확인해보세요!
               </p>
+              <div className="flex justify-center items-center mt-4 space-x-2 text-sm">
+                <Clock className="w-4 h-4" />
+                <span>소요 시간: {formatTime(feedbackData.timeSpent)}</span>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Score Overview */}
+          {/* Score Overview with Stars */}
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center justify-center text-2xl">
                 <Trophy className="w-6 h-6 mr-2 text-yellow-500" />
-                총 점수: {feedbackData.totalScore}점
+                별점 평가
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
+              <div className="flex justify-center mb-4">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-8 h-8 mx-1 ${
+                      i < Math.floor(feedbackData.starRating)
+                        ? 'text-yellow-400 fill-current'
+                        : i < feedbackData.starRating
+                        ? 'text-yellow-400 fill-current opacity-50'
+                        : 'text-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
               <div className={`inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r ${feedbackData.gradeColor} text-white text-xl font-bold mb-4`}>
                 <span className="mr-2">{gradeEmojis[feedbackData.grade]}</span>
                 {feedbackData.grade} 등급
@@ -108,7 +134,7 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
             </CardContent>
           </Card>
 
-          {/* AI Feedback */}
+          {/* AI Feedback with Examples */}
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -130,10 +156,23 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
               </div>
               
               <div className="bg-amber-50 border-l-4 border-amber-500 p-4">
-                <h4 className="font-medium text-amber-900 mb-2">💡 개선할 점</h4>
-                <div className="text-amber-800 text-sm flex items-start">
-                  <Lightbulb className="w-4 h-4 mr-2 mt-0.5 text-amber-600" />
-                  {feedbackData.improvements[2]}
+                <h4 className="font-medium text-amber-900 mb-2">💡 개선 제안 (구체적 예시)</h4>
+                <div className="text-amber-800 text-sm">
+                  <div className="flex items-start mb-2">
+                    <Lightbulb className="w-4 h-4 mr-2 mt-0.5 text-amber-600" />
+                    <span>{feedbackData.detailedExample}</span>
+                  </div>
+                  <div className="bg-amber-100 p-3 rounded-lg mt-2">
+                    <strong>개선된 답변 예시:</strong>
+                    <br />
+                    "클로저는 함수와 그 함수가 선언된 렉시컬 환경의 조합입니다. 
+                    <br />
+                    <code className="bg-white px-1 rounded">
+                      function outer() {'{'} let x = 1; return function inner() {'{'} return x; {'}'}; {'}'}
+                    </code>
+                    <br />
+                    이처럼 inner 함수가 outer 함수의 변수 x에 접근할 수 있는 것이 클로저입니다."
+                  </div>
                 </div>
               </div>
             </CardContent>
