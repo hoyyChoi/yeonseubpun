@@ -10,7 +10,12 @@ import {
   ArrowRight, 
   CheckCircle, 
   Lightbulb,
-  Star
+  Star,
+  Clock,
+  SkipForward,
+  RotateCcw,
+  Home,
+  Sparkles
 } from "lucide-react";
 
 interface FeedbackCardProps {
@@ -21,27 +26,30 @@ interface FeedbackCardProps {
   feedback: any;
   onComplete: () => void;
   onRetry: () => void;
+  onNext?: () => void;
 }
 
-const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComplete, onRetry }: FeedbackCardProps) => {
-  // Use passed feedback data instead of simulating it
+const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComplete, onRetry, onNext }: FeedbackCardProps) => {
   const feedbackData = feedback || {
-    totalScore: 87,
+    totalScore: 80, // 5점 단위로 수정
+    starRating: 4,
     grade: "골드",
     gradeColor: "from-yellow-400 to-yellow-600",
     scores: {
-      accuracy: 90,
-      clarity: 85,
-      completeness: 82,
-      examples: 88
+      accuracy: 85,
+      clarity: 80,
+      completeness: 75,
+      examples: 85
     },
     improvements: [
-      "구체적인 코드 예시가 훌륭합니다!",
-      "실무 관점에서의 설명이 도움이 됩니다.",
-      "브라우저 호환성에 대한 언급이 있으면 더 완벽했을 것 같아요."
+      "구체적인 개념 설명이 훌륭합니다!",
+      "실무 관점에서의 접근이 돋보입니다.",
     ],
-    followUpQuestion: "그렇다면 let과 const가 도입되기 전 var만 있던 시절에는 개발자들이 어떤 방식으로 이런 문제들을 해결했을까요?",
-    experienceGained: 25
+    detailedExample: "개선 예시: '함수가 선언된 렉시컬 환경'이라고 하셨는데, 구체적으로 이렇게 설명하면 더 좋습니다: function outer() { let x = 1; return function inner() { return x; }; } - 여기서 inner 함수가 outer의 x에 접근하는 것이 클로저입니다.",
+    followUpQuestion: "그렇다면 클로저를 사용할 때 메모리 누수를 방지하는 방법은 무엇인가요?",
+    experienceGained: 25,
+    timeSpent: 180,
+    isAIPowered: false
   };
 
   const gradeEmojis: { [key: string]: string } = {
@@ -49,6 +57,12 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
     "실버": "🥈", 
     "골드": "🥇",
     "플래티넘": "💎"
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}분 ${secs}초`;
   };
 
   return (
@@ -64,26 +78,51 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
                 </div>
               </div>
               <h1 className="text-2xl font-bold mb-2">문제 완료! 🎉</h1>
-              <p className="text-green-100">
-                AI가 당신의 답변을 분석했어요. 결과를 확인해보세요!
+              <p className="text-green-100 mb-2">
+                {feedbackData.isAIPowered ? 'Gemini AI가 당신의 답변을 분석했어요!' : 'AI가 당신의 답변을 분석했어요!'}
               </p>
+              {feedbackData.isAIPowered && (
+                <div className="flex items-center justify-center space-x-2 text-sm bg-white/10 rounded-full px-3 py-1 mt-2">
+                  <Sparkles className="w-4 h-4" />
+                  <span>고급 AI 피드백 제공</span>
+                </div>
+              )}
+              <div className="flex justify-center items-center mt-4 space-x-2 text-sm">
+                <Clock className="w-4 h-4" />
+                <span>소요 시간: {formatTime(feedbackData.timeSpent)}</span>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Score Overview */}
+          {/* Score Overview with Stars */}
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center justify-center text-2xl">
                 <Trophy className="w-6 h-6 mr-2 text-yellow-500" />
-                총 점수: {feedbackData.totalScore}점
+                별점 평가
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
+              <div className="flex justify-center mb-4">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-8 h-8 mx-1 ${
+                      i < Math.floor(feedbackData.starRating)
+                        ? 'text-yellow-400 fill-current'
+                        : i < feedbackData.starRating
+                        ? 'text-yellow-400 fill-current opacity-50'
+                        : 'text-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
               <div className={`inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r ${feedbackData.gradeColor} text-white text-xl font-bold mb-4`}>
                 <span className="mr-2">{gradeEmojis[feedbackData.grade]}</span>
                 {feedbackData.grade} 등급
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">{feedbackData.totalScore}점</div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600">{feedbackData.scores.accuracy}</div>
                   <div className="text-sm text-gray-500">정확성</div>
@@ -108,12 +147,12 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
             </CardContent>
           </Card>
 
-          {/* AI Feedback */}
+          {/* AI Feedback with Examples */}
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <MessageSquare className="w-5 h-5 mr-2 text-blue-600" />
-                AI 피드백
+                {feedbackData.isAIPowered ? 'Gemini AI 피드백' : 'AI 피드백'}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -130,10 +169,12 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
               </div>
               
               <div className="bg-amber-50 border-l-4 border-amber-500 p-4">
-                <h4 className="font-medium text-amber-900 mb-2">💡 개선할 점</h4>
-                <div className="text-amber-800 text-sm flex items-start">
-                  <Lightbulb className="w-4 h-4 mr-2 mt-0.5 text-amber-600" />
-                  {feedbackData.improvements[2]}
+                <h4 className="font-medium text-amber-900 mb-2">💡 구체적 개선 예시</h4>
+                <div className="text-amber-800 text-sm">
+                  <div className="flex items-start mb-2">
+                    <Lightbulb className="w-4 h-4 mr-2 mt-0.5 text-amber-600" />
+                    <span>{feedbackData.detailedExample}</span>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -162,15 +203,24 @@ const FeedbackCard = ({ question, answer, category, difficulty, feedback, onComp
                 <Star className="w-8 h-8 text-yellow-500 mr-2" />
                 <span className="text-2xl font-bold text-gray-900">+{feedbackData.experienceGained} EXP</span>
               </div>
-              <p className="text-gray-600 mb-6">오늘의 한 문제 완료! 잔디가 하나 더 심어졌어요 🌱</p>
+              <p className="text-gray-600 mb-6">오늘의 한 문제 완료! 꾸준한 학습으로 성장하고 있어요 🌱</p>
               
-              <div className="flex justify-center space-x-4">
-                <Button onClick={onComplete} className="bg-blue-600 hover:bg-blue-700">
+              {/* 개선된 버튼 레이아웃 */}
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
+                <Button onClick={onComplete} variant="outline" className="flex items-center">
+                  <Home className="w-4 h-4 mr-2" />
                   홈으로 돌아가기
                 </Button>
-                <Button onClick={onRetry} variant="outline">
+                <Button onClick={onRetry} variant="outline" className="flex items-center">
+                  <RotateCcw className="w-4 h-4 mr-2" />
                   다시 풀어보기
                 </Button>
+                {onNext && (
+                  <Button onClick={onNext} className="bg-indigo-600 hover:bg-indigo-700 flex items-center">
+                    <SkipForward className="w-4 h-4 mr-2" />
+                    다음 문제 풀기
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
