@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Trophy, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award, Settings } from "lucide-react";
+import { BookOpen, Code, Trophy, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award, Settings, Menu, X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -25,10 +25,11 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<'home' | 'community'>('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const userStats = {
-    currentGrade: "실버",
-    gradeEmoji: "🥈",
+    currentGrade: "골드",
+    gradeEmoji: "🥇",
     totalSolved: 23,
     avgScore: 80,
     streak: 7,
@@ -68,6 +69,7 @@ const Index = () => {
     setSelectedCategory('');
     setSelectedDifficulty('');
     setActiveTab('home');
+    setMobileMenuOpen(false);
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -123,8 +125,8 @@ const Index = () => {
     }
 
     return (
-      <div className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           <div className="lg:col-span-2 space-y-6">
             <Card className="border-0 shadow-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white overflow-hidden relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
@@ -132,22 +134,22 @@ const Index = () => {
               <CardHeader className="relative">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-2xl mb-2 font-bold">오늘의 기술 감각 테스트</CardTitle>
+                    <CardTitle className="text-xl sm:text-2xl mb-2 font-bold">오늘의 기술 감각 테스트</CardTitle>
                     <CardDescription className="text-indigo-100">
                       하루 한 문제로 실력 유지하고 성장하세요 ✨
                     </CardDescription>
                   </div>
-                  <div className="text-4xl opacity-20">
+                  <div className="text-2xl sm:text-4xl opacity-20">
                     <Target />
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="relative">
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                   <Button 
                     onClick={handleStartPractice}
                     size="lg" 
-                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold shadow-lg"
+                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold shadow-lg w-full sm:w-auto"
                   >
                     <Zap className="w-4 h-4 mr-2" />
                     지식 점검하러 가기
@@ -164,7 +166,7 @@ const Index = () => {
             </Card>
 
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2 text-green-500" />
                 이번 주 인기 기술
               </h2>
@@ -177,7 +179,7 @@ const Index = () => {
                 ].map((tech) => (
                   <Card 
                     key={tech.name} 
-                    className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105 relative"
+                    className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105 relative dark:bg-slate-800"
                     onClick={() => handleCategoryClick(tech.id)}
                   >
                     {tech.popular && (
@@ -185,7 +187,7 @@ const Index = () => {
                     )}
                     <CardContent className="p-4 text-center">
                       <div className="text-2xl mb-2">{tech.icon}</div>
-                      <h3 className="font-medium text-gray-900 mb-1">{tech.name}</h3>
+                      <h3 className="font-medium text-gray-900 dark:text-white mb-1">{tech.name}</h3>
                       <p className="text-sm text-green-600 font-medium">{tech.trend}</p>
                     </CardContent>
                   </Card>
@@ -194,7 +196,7 @@ const Index = () => {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <Star className="w-5 h-5 mr-2 text-yellow-500" />
                 분야별 기술 테스트
               </h2>
@@ -211,13 +213,13 @@ const Index = () => {
                 ].map((category) => (
                   <Card 
                     key={category.name} 
-                    className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105"
+                    className="hover:shadow-md transition-all duration-200 cursor-pointer border-0 shadow-sm hover:scale-105 dark:bg-slate-800"
                     onClick={() => handleCategoryClick(category.category)}
                   >
                     <CardContent className="p-4 text-center">
                       <div className="text-2xl mb-2">{category.icon}</div>
-                      <h3 className="font-medium text-gray-900 mb-1">{category.name}</h3>
-                      <p className="text-sm text-gray-500">{category.count}문제</p>
+                      <h3 className="font-medium text-gray-900 dark:text-white mb-1">{category.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{category.count}문제</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -226,31 +228,31 @@ const Index = () => {
           </div>
 
           <div className="space-y-6">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg dark:bg-slate-800">
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="flex items-center dark:text-white">
                   <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
                   내 현황
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg">
                     <div className="text-3xl mb-2">{userStats.gradeEmoji}</div>
-                    <div className="font-bold text-blue-900">{userStats.currentGrade}</div>
-                    <div className="text-xs text-blue-600">현재 등급</div>
+                    <div className="font-bold text-blue-900 dark:text-blue-100">{userStats.currentGrade}</div>
+                    <div className="text-xs text-blue-600 dark:text-blue-300">현재 등급</div>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-lg">
                     <div className="text-2xl font-bold text-green-600">{userStats.totalSolved}</div>
-                    <div className="text-xs text-green-600">해결한 문제</div>
+                    <div className="text-xs text-green-600 dark:text-green-300">해결한 문제</div>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                  <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-lg">
                     <div className="text-2xl font-bold text-purple-600">{userStats.avgScore}</div>
-                    <div className="text-xs text-purple-600">평균 점수</div>
+                    <div className="text-xs text-purple-600 dark:text-purple-300">평균 점수</div>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg">
+                  <div className="text-center p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 rounded-lg">
                     <div className="text-2xl font-bold text-orange-600">{userStats.experiencePoints}</div>
-                    <div className="text-xs text-orange-600">경험치</div>
+                    <div className="text-xs text-orange-600 dark:text-orange-300">경험치</div>
                   </div>
                 </div>
               </CardContent>
@@ -264,9 +266,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+      <header className="border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-40">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div 
               className="flex items-center space-x-3 cursor-pointer"
@@ -276,14 +278,15 @@ const Index = () => {
                 <Code className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   연습푼
                 </h1>
-                <div className="text-xs text-gray-500">기술 감각 테스트 플랫폼</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">기술 감각 테스트 플랫폼</div>
               </div>
             </div>
             
-            <div className="flex-1 max-w-md mx-8">
+            {/* Desktop Search */}
+            <div className="flex-1 max-w-md mx-8 hidden md:block">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
@@ -295,32 +298,33 @@ const Index = () => {
               </div>
             </div>
             
-            <Tabs value={activeTab} onValueChange={(value) => {
-              setActiveTab(value as 'home' | 'community');
-              if (value === 'community') {
-                setCurrentStep('community');
-              } else {
-                setCurrentStep('home');
-              }
-            }} className="w-auto">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="home" className="flex items-center space-x-2">
-                  <BookOpen className="w-4 h-4" />
-                  <span>홈</span>
-                </TabsTrigger>
-                <TabsTrigger value="community" className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span>커뮤니티</span>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-4">
+              <Tabs value={activeTab} onValueChange={(value) => {
+                setActiveTab(value as 'home' | 'community');
+                if (value === 'community') {
+                  setCurrentStep('community');
+                } else {
+                  setCurrentStep('home');
+                }
+              }} className="w-auto">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="home" className="flex items-center space-x-2">
+                    <BookOpen className="w-4 h-4" />
+                    <span>홈</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="community" className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span>커뮤니티</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
 
-            <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
                 size="sm"
                 onClick={() => setShowOnboarding(true)}
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
                 도움말
               </Button>
@@ -331,14 +335,14 @@ const Index = () => {
                     <Settings className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setCurrentStep('settings')}>
+                <DropdownMenuContent className="bg-white dark:bg-slate-800 border dark:border-slate-700">
+                  <DropdownMenuItem onClick={() => setCurrentStep('settings')} className="dark:text-white">
                     AI 설정
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border-0">
+              <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-700 dark:text-blue-300 border-0">
                 {userStats.gradeEmoji} {userStats.currentGrade}
               </Badge>
               <Avatar 
@@ -351,7 +355,93 @@ const Index = () => {
                 </AvatarFallback>
               </Avatar>
             </div>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t dark:border-slate-700">
+              <div className="space-y-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    placeholder="문제, 토론, 답변 검색..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                
+                <div className="flex flex-col space-y-2">
+                  <Button
+                    variant={activeTab === 'home' ? 'default' : 'ghost'}
+                    className="justify-start"
+                    onClick={() => {
+                      setActiveTab('home');
+                      setCurrentStep('home');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    홈
+                  </Button>
+                  <Button
+                    variant={activeTab === 'community' ? 'default' : 'ghost'}
+                    className="justify-start"
+                    onClick={() => {
+                      setActiveTab('community');
+                      setCurrentStep('community');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    커뮤니티
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => {
+                      setCurrentStep('mypage');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    마이페이지
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => {
+                      setCurrentStep('settings');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <Settings className="w-4 h-4 mr-2" />
+                    설정
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => {
+                      setShowOnboarding(true);
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    도움말
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
