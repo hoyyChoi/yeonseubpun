@@ -1,3 +1,17 @@
+## 2.0.0 (2025-08-12)
+
+* fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+* chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+* feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+
+
+## 1.0.0 (2025-08-12)
+
+* feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+
+
 ## 0.3.0 (2025-08-12)
 
 * feat: 테스트코드 6 ([c213306](https://github.com/hoyyChoi/yeonseubpun/commit/c213306))
