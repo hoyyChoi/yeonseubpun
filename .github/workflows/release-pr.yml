@@ -1,0 +1,55 @@
+name: Prepare Release (PR)
+
+on:
+  pull_request:
+    branches: [fe/prod] # base가 fe/prod인 PR만
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write # PR 브랜치에 커밋/푸시하려면 필요
+
+jobs:
+  prepare:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install tools
+        run: |
+          npm i -g conventional-recommended-bump conventional-changelog-cli
+
+      - name: Determine next version (auto)
+        id: bump
+        shell: bash
+        run: |
+          BUMP=$(npx conventional-recommended-bump -p conventionalcommits | node -pe "JSON.parse(fs.readFileSync(0,'utf8')).releaseType")
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          npm version "$BUMP" --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG (only latest release section)
+        run: |
+          npx -y conventional-changelog-cli@5 -p conventionalcommits -i CHANGELOG.md -s -r 1
+
+      - name: Commit & push to PR branch
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md package.json
+          git commit -m "chore(release): v${{ steps.bump.outputs.version }}"
+          git push
