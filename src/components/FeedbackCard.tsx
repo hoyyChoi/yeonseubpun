@@ -41,7 +41,7 @@ const FeedbackCard = ({
   const feedbackData = feedback || {
     totalScore: 80, // 5점 단위로 수정
     starRating: 4,
-    grade: "골efwefwef12ㄷ12ㄷ21ㄷ21ㄷ21ㄷwe드",
+    grade: "골efwefwef12ㄷ11241241242ㄷ21ㄷ12412421ㄷ21ㄷwe드",
     gradeColor: "from-yellow-400 to-yellow-600",
     scores: {
       accuracy: 85,
