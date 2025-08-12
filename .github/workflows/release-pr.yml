@@ -2,14 +2,15 @@ name: Prepare Release (PR)
 
 on:
   pull_request:
-    branches: [fe/prod]
+    branches: [fe/prod] # base가 fe/prod인 PR만
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write
+  contents: write # PR 브랜치에 커밋/푸시하려면 필요
 
 jobs:
   prepare:
+    # 포크 PR은 권한이 없어 푸시 불가 → same-repo PR만 동작
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
@@ -17,31 +18,36 @@ jobs:
       - name: Checkout (full history)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # 태그/히스토리 필요
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      # preset만 워킹디렉토리에 설치(패키지.json 수정 X)
-      - name: Install preset (no-save)
-        run: npm i --no-save conventional-changelog-conventionalcommits@7
-
       - name: Determine next version (auto)
         id: bump
         shell: bash
         run: |
-          BUMP=$(npx -y conventional-recommended-bump@9 -p conventionalcommits)
+          BUMP=$(npx -y \
+            -p conventional-recommended-bump@9 \
+            -p conventional-changelog-conventionalcommits@7 \
+            conventional-recommended-bump -p conventionalcommits)
+
           if [ -z "$BUMP" ]; then BUMP=patch; fi
+
           npm version "$BUMP" --no-git-tag-version
           VERSION=$(node -p "require('./package.json').version")
+
           echo "bump=$BUMP" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Update CHANGELOG (latest section only)
+      - name: Update CHANGELOG (only latest section)
         run: |
-          npx -y conventional-changelog-cli@5 -p conventionalcommits -i CHANGELOG.md -s -r 1
+          npx -y \
+            -p conventional-changelog-cli@5 \
+            -p conventional-changelog-conventionalcommits@7 \
+            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
 
       - name: Commit & push to PR branch
         run: |
@@ -49,8 +55,5 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md package.json
-          git commit -m "chore(release): v${{ steps.bump.outputs.version }}"
-          git push
+
+          git config
