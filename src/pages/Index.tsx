@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Code, Trophy, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award, Settings, Menu, X } from "lucide-react";
+import { BookOpen, Code, Trophy, Target, Zap, Users, Star, User, Search, TrendingUp, Flame, Award, Settings, Menu, X, Moon, Sun } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import CategorySelector from "@/components/CategorySelector";
 import DifficultySelector from "@/components/DifficultySelector";
 import QuestionCard from "@/components/QuestionCard";
@@ -26,6 +25,9 @@ const Index = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const userStats = {
     currentGrade: "골드",
@@ -38,12 +40,83 @@ const Index = () => {
     experiencePoints: 1240
   };
 
+  // 테마 초기화 및 적용
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme === 'dark' || (!savedTheme && systemDark);
+    
+    setIsDarkMode(isDark);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // 테마 토글 함수
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
     if (!hasSeenOnboarding) {
       setShowOnboarding(true);
     }
   }, []);
+
+  // 검색 기능 구현
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    // 목데이터 기반 검색
+    const mockSearchResults = [
+      {
+        type: 'problem',
+        title: 'JavaScript 클로저 개념',
+        category: 'javascript',
+        difficulty: '보통',
+        description: 'JavaScript에서 클로저란 무엇이며...'
+      },
+      {
+        type: 'discussion',
+        title: 'React Hook 사용 팁',
+        author: '김개발자',
+        replies: 12,
+        description: 'useEffect를 사용할 때 주의사항...'
+      },
+      {
+        type: 'problem',
+        title: 'TypeScript 제네릭 활용',
+        category: 'typescript',
+        difficulty: '어려움',
+        description: 'TypeScript 제네릭의 고급 활용법...'
+      }
+    ].filter(item => 
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.description.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSearchResults(mockSearchResults);
+    setShowSearchResults(true);
+  };
 
   const handleCloseOnboarding = () => {
     setShowOnboarding(false);
@@ -70,6 +143,7 @@ const Index = () => {
     setSelectedDifficulty('');
     setActiveTab('home');
     setMobileMenuOpen(false);
+    setShowSearchResults(false);
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -80,6 +154,17 @@ const Index = () => {
   const handleSelectProblem = (problemId: string) => {
     setSelectedDifficulty('보통');
     setCurrentStep('question');
+  };
+
+  const handleSolveProblem = (category?: string, difficulty?: string) => {
+    if (category) {
+      setSelectedCategory(category);
+    }
+    if (difficulty) {
+      setSelectedDifficulty(difficulty);
+    }
+    setCurrentStep('question');
+    setShowSearchResults(false);
   };
 
   const renderMainContent = () => {
@@ -105,7 +190,7 @@ const Index = () => {
     }
 
     if (currentStep === 'community') {
-      return <CommunityTab onBack={handleBackToHome} searchQuery={searchQuery} />;
+      return <CommunityTab onBack={handleBackToHome} searchQuery={searchQuery} onSolveProblem={handleSolveProblem} />;
     }
 
     if (currentStep === 'mypage') {
@@ -164,6 +249,68 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* 검색 결과 표시 */}
+            {showSearchResults && (
+              <Card className="border-0 shadow-lg dark:bg-slate-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between dark:text-white">
+                    <span>검색 결과</span>
+                    <Button variant="ghost" size="sm" onClick={() => setShowSearchResults(false)}>
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {searchResults.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      <Search className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>검색 결과가 없습니다.</p>
+                      <p className="text-sm mt-2">다른 키워드로 검색해보세요.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {searchResults.map((result, index) => (
+                        <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 dark:border-slate-600">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Badge variant="outline" className="text-xs">
+                                  {result.type === 'problem' ? '문제' : '토론'}
+                                </Badge>
+                                {result.category && (
+                                  <Badge variant="secondary" className="text-xs">
+                                    {result.category}
+                                  </Badge>
+                                )}
+                                {result.difficulty && (
+                                  <Badge variant="outline" className="text-xs">
+                                    {result.difficulty}
+                                  </Badge>
+                                )}
+                              </div>
+                              <h3 className="font-medium text-gray-900 dark:text-white mb-1">{result.title}</h3>
+                              <p className="text-sm text-gray-600 dark:text-gray-300">{result.description}</p>
+                              {result.author && (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                  {result.author} • 댓글 {result.replies}개
+                                </p>
+                              )}
+                            </div>
+                            <Button 
+                              size="sm" 
+                              onClick={() => result.type === 'problem' ? handleSolveProblem(result.category, result.difficulty) : null}
+                            >
+                              {result.type === 'problem' ? '풀어보기' : '보기'}
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
             <div>
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
@@ -292,7 +439,7 @@ const Index = () => {
                 <Input
                   placeholder="문제, 토론, 답변 검색..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                   className="pl-10"
                 />
               </div>
@@ -328,19 +475,23 @@ const Index = () => {
               >
                 도움말
               </Button>
+
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={toggleTheme}
+                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              >
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </Button>
               
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <Settings className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white dark:bg-slate-800 border dark:border-slate-700">
-                  <DropdownMenuItem onClick={() => setCurrentStep('settings')} className="dark:text-white">
-                    AI 설정
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setCurrentStep('settings')}
+              >
+                <Settings className="w-4 h-4" />
+              </Button>
               
               <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-700 dark:text-blue-300 border-0">
                 {userStats.gradeEmoji} {userStats.currentGrade}
@@ -376,7 +527,7 @@ const Index = () => {
                   <Input
                     placeholder="문제, 토론, 답변 검색..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value)}
                     className="pl-10"
                   />
                 </div>
@@ -427,6 +578,14 @@ const Index = () => {
                   >
                     <Settings className="w-4 h-4 mr-2" />
                     설정
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={toggleTheme}
+                  >
+                    {isDarkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                    {isDarkMode ? '라이트 모드' : '다크 모드'}
                   </Button>
                   <Button
                     variant="ghost"
