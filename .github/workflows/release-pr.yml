@@ -2,11 +2,11 @@ name: Prepare Release (PR)
 
 on:
   pull_request:
-    branches: [fe/prod] # base가 fe/prod인 PR만
+    branches: [fe/prod]
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write # PR 브랜치에 커밋/푸시하려면 필요
+  contents: write
 
 jobs:
   prepare:
@@ -24,18 +24,18 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install tools
-        run: |
-          npm i -g conventional-recommended-bump conventional-changelog-cli
-
       - name: Determine next version (auto)
         id: bump
         shell: bash
         run: |
-          BUMP=$(npx conventional-recommended-bump -p conventionalcommits | node -pe "JSON.parse(fs.readFileSync(0,'utf8')).releaseType")
-          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          BUMP=$(npx -y conventional-recommended-bump@9 -p conventionalcommits)
+          if [ -z "$BUMP" ]; then
+            echo "BUMP empty; default to patch"
+            BUMP=patch
+          fi
           npm version "$BUMP" --no-git-tag-version
           VERSION=$(node -p "require('./package.json').version")
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Update CHANGELOG (only latest release section)
