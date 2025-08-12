@@ -43,6 +43,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Update CHANGELOG (only latest section)
+        shell: bash
         run: |
           npx -y \
             -p conventional-changelog-cli@5 \
@@ -50,10 +51,24 @@ jobs:
             conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
 
       - name: Commit & push to PR branch
+        shell: bash
         run: |
-          if git diff --quiet; then
+          # CHANGELOG.md, package.json에 실제 변경이 있는지 확인
+          if git diff --quiet -- CHANGELOG.md package.json; then
             echo "No changes to commit."
             exit 0
           fi
 
-          git config
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add CHANGELOG.md package.json
+
+          # stage에 변경이 없으면 스킵
+          if git diff --cached --quiet; then
+            echo "No staged changes."
+            exit 0
+          fi
+
+          git commit -m "chore(release): v${{ steps.bump.outputs.version }}"
+          git push
