@@ -34,7 +34,7 @@ const StudyGroupPage = ({ onBack }: StudyGroupPageProps) => {
   const myGroups = [
     {
       id: "1",
-      name: "프론트엔드 마스터즈ㅈㄷㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹ",
+      name: "프론트엔ㄷㄷㄷ드 마스터즈ㅈㄷㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹ",
       members: 12,
       weeklyGoal: 5,
       myProgress: 4,
