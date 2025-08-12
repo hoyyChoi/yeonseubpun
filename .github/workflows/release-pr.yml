@@ -24,21 +24,22 @@ jobs:
         with:
           node-version: "20"
 
+      # preset만 워킹디렉토리에 설치(패키지.json 수정 X)
+      - name: Install preset (no-save)
+        run: npm i --no-save conventional-changelog-conventionalcommits@7
+
       - name: Determine next version (auto)
         id: bump
         shell: bash
         run: |
           BUMP=$(npx -y conventional-recommended-bump@9 -p conventionalcommits)
-          if [ -z "$BUMP" ]; then
-            echo "BUMP empty; default to patch"
-            BUMP=patch
-          fi
+          if [ -z "$BUMP" ]; then BUMP=patch; fi
           npm version "$BUMP" --no-git-tag-version
           VERSION=$(node -p "require('./package.json').version")
           echo "bump=$BUMP" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Update CHANGELOG (only latest release section)
+      - name: Update CHANGELOG (latest section only)
         run: |
           npx -y conventional-changelog-cli@5 -p conventionalcommits -i CHANGELOG.md -s -r 1
 
