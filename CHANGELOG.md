@@ -1,3 +1,9 @@
+## 8.1.0 (2025-08-13)
+
+* feat: changelog 수정사항 확인 ([41e6481](https://github.com/hoyyChoi/yeonseubpun/commit/41e6481))
+
+
+
 ## 8.0.0 (2025-08-13)
 
 * chore: yml 파일 수정 ([53f8793](https://github.com/hoyyChoi/yeonseubpun/commit/53f8793))
