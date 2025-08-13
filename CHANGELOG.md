@@ -1,3 +1,16 @@
+## 4.0.0 (2025-08-12)
+
+* feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+* feat: 커밋 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+* fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+* fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+* chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+* chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+* chore(release): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+* feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+
+
 ## 3.0.0 (2025-08-12)
 
 * feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
