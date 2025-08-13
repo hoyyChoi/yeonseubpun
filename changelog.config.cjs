@@ -1,15 +1,10 @@
 // changelog.config.cjs
 module.exports = {
-  // 기본 규칙은 Conventional Commits
+  // 기본 규칙
   preset: "conventionalcommits",
-
-  // 태그 접두사 (v1.2.3 형태 유지)
   tagPrefix: "v",
 
-  // 0이면 전체, 1이면 최신 섹션만. CI에서는 보통 -r 1로 덮어써서 최신만 추가
-  releaseCount: 0,
-
-  // 커밋 타입 -> 섹션 매핑 (표시/숨김)
+  // 섹션 매핑(보이고/숨길 타입)
   types: [
     { type: "feat", section: "Features" },
     { type: "fix", section: "Bug Fixes" },
@@ -24,42 +19,46 @@ module.exports = {
     { type: "chore", section: "Chores", hidden: true },
   ],
 
-  // 링크 템플릿 (GitHub 저장소일 때 커밋/비교 링크 모양)
+  // 링크 템플릿 (GitHub 기준)
   commitUrlFormat: "{{host}}/{{owner}}/{{repository}}/commit/{{hash}}",
   compareUrlFormat:
     "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
   issueUrlFormat: "{{host}}/{{owner}}/{{repository}}/issues/{{id}}",
 
-  // writerOpts로 헤더/커밋 라인/날짜 포맷 등을 커스터마이즈
   writerOpts: {
-    // 헤더 템플릿: "## 1.2.3 (2025-08-12)" 형태
+    // 헤더: "## v1.2.3 (2025-08-13)"
     headerPartial:
       "{{#if currentTag}}## {{currentTag}} ({{formattedDate}})\n{{/if}}",
 
-    // 개별 커밋 라인 템플릿 예시: "* 설명 (abc123)"
+    // 커밋 라인: "* scope: subject (abc123)"
     commitPartial:
       "* {{#if scope}}**{{scope}}:** {{/if}}{{subject}} ({{shortHash}})\n",
 
-    // 날짜/필드 전처리
-    transform: (commit, context) => {
-      // 제목이 없으면 스킵
-      if (!commit.subject) return commit;
+    // 커밋 전처리: 새 객체 만들어 반환(불변성 준수)
+    transform: (commit) => {
+      if (!commit || !commit.subject) return commit;
 
-      // BREAKING CHANGE 처리: 제목 앞에 ⚠️ 표기
-      if (commit.notes && commit.notes.length) {
-        commit.notes.forEach((note) => {
-          note.title = "BREAKING CHANGES";
-        });
-      }
+      const shortHash = commit.hash ? commit.hash.substring(0, 7) : "";
 
-      // 커밋 해시 짧게
-      commit.shortHash = commit.hash ? commit.hash.substring(0, 7) : "";
+      // notes 배열 복사 + title 변경
+      const notes = Array.isArray(commit.notes)
+        ? commit.notes.map((n) => ({ ...n, title: "BREAKING CHANGES" }))
+        : [];
 
-      // YYYY-MM-DD 포맷 (의존성 없이 처리)
-      const yyyyMmDd = new Date().toISOString().slice(0, 10);
-      context.formattedDate = yyyyMmDd;
+      return {
+        ...commit,
+        shortHash,
+        notes,
+      };
+    },
 
-      return commit;
+    // context 가공도 새 객체로 반환
+    finalizeContext: (context) => {
+      // KST 기준 YYYY-MM-DD (원하면 'en-CA' 대신 다른 로케일 사용)
+      const formattedDate = new Date().toLocaleDateString("en-CA", {
+        timeZone: "Asia/Seoul",
+      });
+      return { ...context, formattedDate };
     },
   },
 };
