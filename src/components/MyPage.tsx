@@ -21,7 +21,8 @@ interface MyPageProps {
 const MyPage = ({ onBack }: MyPageProps) => {
   const userStats = {
     name: "김개발",
-    email: "kim@exampㄷㅈㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹe.com",
+    email:
+      "kim@exampㄷㅈㄹㅈㄷfwefwefwefwefwefwefwefewfweㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹㅈㄷㄹe.com",
     level: "골드",
     totalScore: 1847,
     solvedProblems: 23,
