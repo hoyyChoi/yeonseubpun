@@ -48,7 +48,8 @@ jobs:
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
+            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1 \
+            -n ./changelog.config.cjs
 
       - name: Commit & push to PR branch
         shell: bash
