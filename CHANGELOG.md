@@ -71,6 +71,18 @@
 * feat: yml 파일 추가 ([640e47f](https://github.com/hoyyChoi/yeonseubpun/commit/640e47f))
 
 
+## 0.0.0 (2025-08-11)
+
+* feat: 츄거 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+* feat: 츄거 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+* fix: 츄거 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+* fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+* chore(츄거): v1.츄거.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+* chore(츄거): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+* chore(츄거): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+* feat!: 츄거 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+
 
 ## [0.1.0](https://github.com/hoyyChoi/interview-spark-garden/compare/v1.2.0...v0.1.0) (2025-08-12)
 
