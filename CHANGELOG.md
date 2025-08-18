@@ -1,3 +1,10 @@
+## 9.0.0 (2025-08-18)
+
+* feat: 수정 ([de10026](https://github.com/hoyyChoi/yeonseubpun/commit/de10026))
+* feat!: major 변경 ([8584388](https://github.com/hoyyChoi/yeonseubpun/commit/8584388))
+
+
+
 ## 8.1.0 (2025-08-13)
 
 - feat: changelog 수정사항 확인 ([41e6481](https://github.com/hoyyChoi/yeonseubpun/commit/41e6481))
