@@ -1,3 +1,23 @@
+## [8.0.0](https://github.com/hoyyChoi/interview-spark-garden/compare/v6.0.0...v8.0.0) (2025-08-14)
+
+### ⚠ BREAKING CHANGES
+
+* major 변경
+
+### Features
+
+* 기능추가 ([1bfc77a](https://github.com/hoyyChoi/interview-spark-garden/commit/1bfc77a01b793c252ba6608de55c5374e23c4220))
+* 커밋 2 ([b711a5a](https://github.com/hoyyChoi/interview-spark-garden/commit/b711a5a26b817373ca7141b02b79cfa67bf5d014))
+* changelog 수정사항 확인 ([41e6481](https://github.com/hoyyChoi/interview-spark-garden/commit/41e6481556d1b8f41bfa202a063b55db44458846))
+* changelog 파일 수정 ([277b55f](https://github.com/hoyyChoi/interview-spark-garden/commit/277b55fdd733aa38aa49cb90b71ab59b201eb07e))
+* changelog.config 파일 수정 ([08cc7d0](https://github.com/hoyyChoi/interview-spark-garden/commit/08cc7d0742d11910c02c200bed084b786a4c1d82))
+* changelog.config 파일 추가 ([dc89efb](https://github.com/hoyyChoi/interview-spark-garden/commit/dc89efb5d966f335a2c0c2c0a1e987c735b146f3))
+* major 변경 ([8a98d27](https://github.com/hoyyChoi/interview-spark-garden/commit/8a98d27af8f2304db771cd7f19f46f8eddbf0832))
+
+### Bug Fixes
+
+* 커밋 2 ([2388858](https://github.com/hoyyChoi/interview-spark-garden/commit/2388858a5bf210d7f7975caffb3cbb6ddb9acbb3))
+* patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/interview-spark-garden/commit/0a55b7c553670ae613260bd52aa0a295b21278c1))
 ## 8.0.0 (2025-08-13)
 
 * chore: yml 파일 수정 ([53f8793](https://github.com/hoyyChoi/yeonseubpun/commit/53f8793))
