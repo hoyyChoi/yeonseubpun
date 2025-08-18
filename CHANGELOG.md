@@ -1,3 +1,9 @@
+## 9.1.0 (2025-08-18)
+
+* feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
+
+
+
 ## 9.0.0 (2025-08-18)
 
 * feat: 수정 ([de10026](https://github.com/hoyyChoi/yeonseubpun/commit/de10026))
