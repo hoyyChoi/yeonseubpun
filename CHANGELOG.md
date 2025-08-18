@@ -1,3 +1,39 @@
+## 9.6.0 (2025-08-18)
+
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+
+
+
+## 9.5.0 (2025-08-18)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+
+
+
+## <small>9.4.2 (2025-08-18)</small>
+
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+
+
+
+## <small>9.4.1 (2025-08-18)</small>
+
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+
+
+
 ## 9.4.0 (2025-08-18)
 
 * feat: yml ([ca27ce9](https://github.com/hoyyChoi/yeonseubpun/commit/ca27ce9))
