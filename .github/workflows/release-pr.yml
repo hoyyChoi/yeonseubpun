@@ -42,6 +42,14 @@ jobs:
           echo "bump=$BUMP" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Debug tags
+        run: |
+          git fetch --tags --force
+          echo "== All tags =="
+          git tag --list --sort=-creatordate | head -n 20
+          echo "== Most recent tag reachable from HEAD =="
+          git describe --tags --abbrev=0 HEAD || echo "No tag found reachable from HEAD"
+
       - name: Update CHANGELOG (only latest section)
         shell: bash
         run: |
