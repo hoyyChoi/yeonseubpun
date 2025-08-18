@@ -1,3 +1,11 @@
+## 9.2.0 (2025-08-18)
+
+* chore: patch ([2842771](https://github.com/hoyyChoi/yeonseubpun/commit/2842771))
+* chore(release): v9.1.0 ([82013b9](https://github.com/hoyyChoi/yeonseubpun/commit/82013b9))
+* feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
+
+
+
 ## 9.1.0 (2025-08-18)
 
 * feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
