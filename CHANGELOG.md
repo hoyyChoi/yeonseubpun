@@ -1,3 +1,9 @@
+## <small>9.4.1 (2025-08-18)</small>
+
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+
+
+
 ## 9.4.0 (2025-08-18)
 
 * feat: yml ([ca27ce9](https://github.com/hoyyChoi/yeonseubpun/commit/ca27ce9))
