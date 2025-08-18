@@ -1,3 +1,9 @@
+## <small>9.3.1 (2025-08-18)</small>
+
+* chore: 123 ([ef4da0d](https://github.com/hoyyChoi/yeonseubpun/commit/ef4da0d))
+
+
+
 ## 9.3.0 (2025-08-18)
 
 * chore: patch ([efdd08e](https://github.com/hoyyChoi/yeonseubpun/commit/efdd08e))
