@@ -1,3 +1,11 @@
+## 9.4.0 (2025-08-18)
+
+* feat: yml ([ca27ce9](https://github.com/hoyyChoi/yeonseubpun/commit/ca27ce9))
+* chore: 123 ([ef4da0d](https://github.com/hoyyChoi/yeonseubpun/commit/ef4da0d))
+* chore(release): v9.3.1 ([74514bc](https://github.com/hoyyChoi/yeonseubpun/commit/74514bc))
+
+
+
 ## <small>9.3.1 (2025-08-18)</small>
 
 * chore: 123 ([ef4da0d](https://github.com/hoyyChoi/yeonseubpun/commit/ef4da0d))
