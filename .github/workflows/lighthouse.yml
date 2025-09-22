@@ -1,0 +1,99 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches:
+      - fe/dev
+      - fe/prod
+    paths:
+      - "**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lhci:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun \
+            --collect.staticDistDir=./dist \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci_reports || echo "Lighthouse CI failed"
+
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            let comments = "";
+
+            results.forEach((result) => {
+              const { summary, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { audits } = details;
+
+              const formatResult = (res) => Math.round(res * 100);
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+
+              const scoreIcon = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+
+              const comment = [
+                `## ⚡️ Lighthouse Report`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${scoreIcon(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${scoreIcon(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${scoreIcon(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                `| ${scoreIcon(summary.seo)} SEO | ${summary.seo} |`,
+              ].join("\n");
+
+              const detail = [
+                `### 📊 Performance Details`,
+                `| Metric | Value |`,
+                `| --- | --- |`,
+                `| ${scoreIcon(audits["first-contentful-paint"].score * 100)} First Contentful Paint | ${audits["first-contentful-paint"].displayValue} |`,
+                `| ${scoreIcon(audits["largest-contentful-paint"].score * 100)} Largest Contentful Paint | ${audits["largest-contentful-paint"].displayValue} |`,
+                `| ${scoreIcon(audits["total-blocking-time"].score * 100)} Total Blocking Time | ${audits["total-blocking-time"].displayValue} |`,
+                `| ${scoreIcon(audits["cumulative-layout-shift"].score * 100)} Cumulative Layout Shift | ${audits["cumulative-layout-shift"].displayValue} |`,
+                `| ${scoreIcon(audits["interactive"].score * 100)} Time To Interactive | ${audits["interactive"].displayValue} |`,
+              ].join("\n");
+
+              comments += comment + "\n\n" + detail + "\n";
+            });
+
+            core.setOutput("comments", comments);
+
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comments }}
