@@ -8,6 +8,10 @@ on:
     paths:
       - "**"
 
+permissions: # 👈 코멘트 작성 권한 추가
+  contents: read
+  pull-requests: write
+
 jobs:
   lighthouse:
     name: Lighthouse Report
