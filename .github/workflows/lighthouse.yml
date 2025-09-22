@@ -32,14 +32,15 @@ jobs:
       - name: Build Project
         run: npm run build # Vite → dist/ 생성
 
-      # dist 폴더를 로컬 서버로 띄움
+      # Vite 빌드 결과물(dist/)을 로컬 서버로 실행
       - name: Start local server
         run: npx serve -s dist -l 3000 &
 
       - name: Wait for server
         run: npx wait-on http://localhost:3000 --timeout 30000
 
-      - name: Run Lighthouse and comment PR
+      - name: Run Lighthouse
+        id: lhci
         uses: treosh/lighthouse-ci-action@v9
         with:
           urls: |
@@ -47,3 +48,11 @@ jobs:
           temporaryPublicStorage: true
           uploadArtifacts: false
           runs: 1
+
+      - name: Comment Lighthouse results on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: |
+            ⚡️ Lighthouse Report  
+            ${{ steps.lhci.outputs.links }}
