@@ -8,19 +8,17 @@ on:
     paths:
       - "**"
 
-permissions: # 👈 코멘트 작성 권한 추가
+permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  lighthouse:
-    name: Lighthouse Report
+  lhci:
+    name: Lighthouse CI
     runs-on: ubuntu-latest
-    env:
-      TZ: Asia/Seoul
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -30,33 +28,72 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build Project
-        run: npm run build # Vite → dist/ 생성
+      - name: Build project
+        run: npm run build
 
-      # Vite 빌드 결과물(dist/)을 로컬 서버로 실행
-      - name: Start local server
-        run: npx serve -s dist -l 3000 &
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
 
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 30000
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun \
+            --collect.staticDistDir=./dist \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci_reports || echo "Lighthouse CI failed"
 
-      - name: Run Lighthouse
-        id: lhci
-        uses: treosh/lighthouse-ci-action@v9
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        uses: actions/github-script@v7
         with:
-          urls: |
-            http://localhost:3000
-          temporaryPublicStorage: true
-          uploadArtifacts: false
-          runs: 1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            let comments = "";
 
-      - name: Comment Lighthouse results on PR
+            results.forEach((result) => {
+              const { summary, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { audits } = details;
+
+              const formatResult = (res) => Math.round(res * 100);
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+
+              const scoreIcon = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+
+              const comment = [
+                `## ⚡️ Lighthouse Report`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${scoreIcon(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${scoreIcon(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${scoreIcon(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                `| ${scoreIcon(summary.seo)} SEO | ${summary.seo} |`,
+              ].join("\n");
+
+              const detail = [
+                `### 📊 Performance Details`,
+                `| Metric | Value |`,
+                `| --- | --- |`,
+                `| ${scoreIcon(audits["first-contentful-paint"].score * 100)} First Contentful Paint | ${audits["first-contentful-paint"].displayValue} |`,
+                `| ${scoreIcon(audits["largest-contentful-paint"].score * 100)} Largest Contentful Paint | ${audits["largest-contentful-paint"].displayValue} |`,
+                `| ${scoreIcon(audits["total-blocking-time"].score * 100)} Total Blocking Time | ${audits["total-blocking-time"].displayValue} |`,
+                `| ${scoreIcon(audits["cumulative-layout-shift"].score * 100)} Cumulative Layout Shift | ${audits["cumulative-layout-shift"].displayValue} |`,
+                `| ${scoreIcon(audits["interactive"].score * 100)} Time To Interactive | ${audits["interactive"].displayValue} |`,
+              ].join("\n");
+
+              comments += comment + "\n\n" + detail + "\n";
+            });
+
+            core.setOutput("comments", comments);
+
+      - name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: lighthouse
-          message: |
-            ⚡️ Lighthouse Report  
-            ${{ steps.lhci.outputs.links }}
+          message: ${{ steps.format_lighthouse_score.outputs.comments }}
