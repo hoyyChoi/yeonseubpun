@@ -18,7 +18,8 @@ const CategoryProblems = ({
     react: {
       name: "React",
       icon: "⚛️",
-      description: "Re111act 프레임111워1111111크 11111관련 문제들",
+      description:
+        "Re111actㄱㄱㄱㄴ 프레임111워1111245124121ㅈㅈㅈ111ㅗㅗㅗ크eee 11111관련 문제들123213412",
       problems: [
         {
           id: "react-001",
