@@ -45,5 +45,5 @@ jobs:
           urls: |
             http://localhost:3000
           temporaryPublicStorage: true
-          uploadArtifacts: true
+          uploadArtifacts: false
           runs: 1
