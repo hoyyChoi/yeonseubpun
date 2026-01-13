@@ -1,0 +1,93 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches:
+      - fe/dev
+      - fe/prod
+    paths:
+      - "**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lhci:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun \
+            --collect.staticDistDir=./dist \
+            --collect.numberOfRuns=1 \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci_reports || echo "Lighthouse CI failed"
+
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            const result = results[0]; // ✅ 첫 번째 결과만 사용
+
+            const details = JSON.parse(fs.readFileSync(result.jsonPath));
+            const { audits } = details;
+            const summary = result.summary;
+
+            const fmt = (s) => Math.round(s * 100);
+            Object.keys(summary).forEach((k) => summary[k] = fmt(summary[k]));
+            const icon = (v) => (v >= 90 ? "🟢" : v >= 50 ? "🟠" : "🔴");
+
+            const comment = [
+              `## ⚡️ Lighthouse Report`,
+              `| Category | Score |`,
+              `| --- | --- |`,
+              `| ${icon(summary.performance)} Performance | ${summary.performance} |`,
+              `| ${icon(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+              `| ${icon(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+              `| ${icon(summary.seo)} SEO | ${summary.seo} |`,
+            ].join("\n");
+
+            const detail = [
+              `### 📊 Performance Details`,
+              `| Metric | Value |`,
+              `| --- | --- |`,
+              `| ${icon(audits["first-contentful-paint"].score*100)} First Contentful Paint | ${audits["first-contentful-paint"].displayValue} |`,
+              `| ${icon(audits["largest-contentful-paint"].score*100)} Largest Contentful Paint | ${audits["largest-contentful-paint"].displayValue} |`,
+              `| ${icon(audits["total-blocking-time"].score*100)} Total Blocking Time | ${audits["total-blocking-time"].displayValue} |`,
+              `| ${icon(audits["cumulative-layout-shift"].score*100)} Cumulative Layout Shift | ${audits["cumulative-layout-shift"].displayValue} |`,
+              `| ${icon(audits["interactive"].score*100)} Time To Interactive | ${audits["interactive"].displayValue} |`,
+            ].join("\n");
+
+            core.setOutput("comments", comment + "\n\n" + detail);
+
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comments }}

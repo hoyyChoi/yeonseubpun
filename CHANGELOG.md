@@ -1,5 +1,414 @@
+## 9.15.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([ada6c3d](https://github.com/hoyyChoi/yeonseubpun/commit/ada6c3d))
+* feat: lighthouse.yml 파일 추가 ([411bcfd](https://github.com/hoyyChoi/yeonseubpun/commit/411bcfd))
+* feat: lighthouse.yml 파일 추가 ([8cb8dc1](https://github.com/hoyyChoi/yeonseubpun/commit/8cb8dc1))
+* feat: lighthouse.yml 파일 추가 ([4bb0941](https://github.com/hoyyChoi/yeonseubpun/commit/4bb0941))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: uploadArtifacts false로 수정 ([d94f507](https://github.com/hoyyChoi/yeonseubpun/commit/d94f507))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.10.0 ([2c987a3](https://github.com/hoyyChoi/yeonseubpun/commit/2c987a3))
+* chore(release): v9.11.0 ([8c9af9c](https://github.com/hoyyChoi/yeonseubpun/commit/8c9af9c))
+* chore(release): v9.12.0 ([efcfe87](https://github.com/hoyyChoi/yeonseubpun/commit/efcfe87))
+* chore(release): v9.13.0 ([31a864c](https://github.com/hoyyChoi/yeonseubpun/commit/31a864c))
+* chore(release): v9.14.0 ([888b5bc](https://github.com/hoyyChoi/yeonseubpun/commit/888b5bc))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.14.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([411bcfd](https://github.com/hoyyChoi/yeonseubpun/commit/411bcfd))
+* feat: lighthouse.yml 파일 추가 ([8cb8dc1](https://github.com/hoyyChoi/yeonseubpun/commit/8cb8dc1))
+* feat: lighthouse.yml 파일 추가 ([4bb0941](https://github.com/hoyyChoi/yeonseubpun/commit/4bb0941))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: uploadArtifacts false로 수정 ([d94f507](https://github.com/hoyyChoi/yeonseubpun/commit/d94f507))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.10.0 ([2c987a3](https://github.com/hoyyChoi/yeonseubpun/commit/2c987a3))
+* chore(release): v9.11.0 ([8c9af9c](https://github.com/hoyyChoi/yeonseubpun/commit/8c9af9c))
+* chore(release): v9.12.0 ([efcfe87](https://github.com/hoyyChoi/yeonseubpun/commit/efcfe87))
+* chore(release): v9.13.0 ([31a864c](https://github.com/hoyyChoi/yeonseubpun/commit/31a864c))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.13.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([8cb8dc1](https://github.com/hoyyChoi/yeonseubpun/commit/8cb8dc1))
+* feat: lighthouse.yml 파일 추가 ([4bb0941](https://github.com/hoyyChoi/yeonseubpun/commit/4bb0941))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: uploadArtifacts false로 수정 ([d94f507](https://github.com/hoyyChoi/yeonseubpun/commit/d94f507))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.10.0 ([2c987a3](https://github.com/hoyyChoi/yeonseubpun/commit/2c987a3))
+* chore(release): v9.11.0 ([8c9af9c](https://github.com/hoyyChoi/yeonseubpun/commit/8c9af9c))
+* chore(release): v9.12.0 ([efcfe87](https://github.com/hoyyChoi/yeonseubpun/commit/efcfe87))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.12.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([4bb0941](https://github.com/hoyyChoi/yeonseubpun/commit/4bb0941))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: uploadArtifacts false로 수정 ([d94f507](https://github.com/hoyyChoi/yeonseubpun/commit/d94f507))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.10.0 ([2c987a3](https://github.com/hoyyChoi/yeonseubpun/commit/2c987a3))
+* chore(release): v9.11.0 ([8c9af9c](https://github.com/hoyyChoi/yeonseubpun/commit/8c9af9c))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.11.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: uploadArtifacts false로 수정 ([d94f507](https://github.com/hoyyChoi/yeonseubpun/commit/d94f507))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.10.0 ([2c987a3](https://github.com/hoyyChoi/yeonseubpun/commit/2c987a3))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.10.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([396ede5](https://github.com/hoyyChoi/yeonseubpun/commit/396ede5))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+* chore(release): v9.9.0 ([bfb36a9](https://github.com/hoyyChoi/yeonseubpun/commit/bfb36a9))
+
+
+
+## 9.9.0 (2025-09-22)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: lighthouse.yml 파일 추가 ([768755f](https://github.com/hoyyChoi/yeonseubpun/commit/768755f))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* chore(release): v9.8.0 ([445a3b7](https://github.com/hoyyChoi/yeonseubpun/commit/445a3b7))
+
+
+
+## 9.8.0 (2025-08-19)
+
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1243 ([6a88d88](https://github.com/hoyyChoi/yeonseubpun/commit/6a88d88))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+* chore(release): v9.7.0 ([22a3d39](https://github.com/hoyyChoi/yeonseubpun/commit/22a3d39))
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+
+
+
+## 9.7.0 (2025-08-18)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* feat: 그래프 ([888fcc0](https://github.com/hoyyChoi/yeonseubpun/commit/888fcc0))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* chore(release): v9.6.0 ([08e0409](https://github.com/hoyyChoi/yeonseubpun/commit/08e0409))
+
+
+
+## 9.6.0 (2025-08-18)
+
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: 1r124 ([036454d](https://github.com/hoyyChoi/yeonseubpun/commit/036454d))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+* chore(release): v9.5.0 ([4540560](https://github.com/hoyyChoi/yeonseubpun/commit/4540560))
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+
+
+
+## 9.5.0 (2025-08-18)
+
+* feat: 123 ([a140c74](https://github.com/hoyyChoi/yeonseubpun/commit/a140c74))
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+* chore(release): v9.4.2 ([6f89d45](https://github.com/hoyyChoi/yeonseubpun/commit/6f89d45))
+
+
+
+## <small>9.4.2 (2025-08-18)</small>
+
+* chore: 122 ([43ba049](https://github.com/hoyyChoi/yeonseubpun/commit/43ba049))
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+* chore(release): v9.4.1 ([a8bba59](https://github.com/hoyyChoi/yeonseubpun/commit/a8bba59))
+
+
+
+## <small>9.4.1 (2025-08-18)</small>
+
+* chore: test ([89db029](https://github.com/hoyyChoi/yeonseubpun/commit/89db029))
+
+
+
+## 9.4.0 (2025-08-18)
+
+* feat: yml ([ca27ce9](https://github.com/hoyyChoi/yeonseubpun/commit/ca27ce9))
+* chore: 123 ([ef4da0d](https://github.com/hoyyChoi/yeonseubpun/commit/ef4da0d))
+* chore(release): v9.3.1 ([74514bc](https://github.com/hoyyChoi/yeonseubpun/commit/74514bc))
+
+
+
+## <small>9.3.1 (2025-08-18)</small>
+
+* chore: 123 ([ef4da0d](https://github.com/hoyyChoi/yeonseubpun/commit/ef4da0d))
+
+
+
+## 9.3.0 (2025-08-18)
+
+* chore: patch ([efdd08e](https://github.com/hoyyChoi/yeonseubpun/commit/efdd08e))
+* chore: patch ([2842771](https://github.com/hoyyChoi/yeonseubpun/commit/2842771))
+* chore(release): v9.1.0 ([82013b9](https://github.com/hoyyChoi/yeonseubpun/commit/82013b9))
+* chore(release): v9.2.0 ([34fc415](https://github.com/hoyyChoi/yeonseubpun/commit/34fc415))
+* feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
+
+
+
+## 9.2.0 (2025-08-18)
+
+* chore: patch ([2842771](https://github.com/hoyyChoi/yeonseubpun/commit/2842771))
+* chore(release): v9.1.0 ([82013b9](https://github.com/hoyyChoi/yeonseubpun/commit/82013b9))
+* feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
+
+
+
+## 9.1.0 (2025-08-18)
+
+* feat: minor 변경 ([0df0205](https://github.com/hoyyChoi/yeonseubpun/commit/0df0205))
+
+
+
+## 9.0.0 (2025-08-18)
+
+* feat: 수정 ([de10026](https://github.com/hoyyChoi/yeonseubpun/commit/de10026))
+* feat!: major 변경 ([8584388](https://github.com/hoyyChoi/yeonseubpun/commit/8584388))
+
+
+
+## 8.1.0 (2025-08-13)
+
+- feat: changelog 수정사항 확인 ([41e6481](https://github.com/hoyyChoi/yeonseubpun/commit/41e6481))
+
+## 8.0.0 (2025-08-13)
+
+- chore: yml 파일 수정 ([53f8793](https://github.com/hoyyChoi/yeonseubpun/commit/53f8793))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- chore(release): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+- chore(release): v4.0.0 ([299ccf0](https://github.com/hoyyChoi/yeonseubpun/commit/299ccf0))
+- chore(release): v5.0.0 ([1a482c3](https://github.com/hoyyChoi/yeonseubpun/commit/1a482c3))
+- chore(release): v6.0.0 ([0849e14](https://github.com/hoyyChoi/yeonseubpun/commit/0849e14))
+- chore(release): v7.0.0 ([1f9f758](https://github.com/hoyyChoi/yeonseubpun/commit/1f9f758))
+- feat: changelog 파일 수정 ([277b55f](https://github.com/hoyyChoi/yeonseubpun/commit/277b55f))
+- feat: changelog.config 파일 수정 ([08cc7d0](https://github.com/hoyyChoi/yeonseubpun/commit/08cc7d0))
+- feat: changelog.config 파일 추가 ([dc89efb](https://github.com/hoyyChoi/yeonseubpun/commit/dc89efb))
+- feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- feat: 커밋 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+- build: yml 파일 수정 ([a5cf9b4](https://github.com/hoyyChoi/yeonseubpun/commit/a5cf9b4))
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 7.0.0 (2025-08-13)
+
+- feat: changelog 파일 수정 ([277b55f](https://github.com/hoyyChoi/yeonseubpun/commit/277b55f))
+- feat: changelog.config 파일 수정 ([08cc7d0](https://github.com/hoyyChoi/yeonseubpun/commit/08cc7d0))
+- feat: changelog.config 파일 추가 ([dc89efb](https://github.com/hoyyChoi/yeonseubpun/commit/dc89efb))
+- feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- feat: 커밋 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+- chore: yml 파일 수정 ([53f8793](https://github.com/hoyyChoi/yeonseubpun/commit/53f8793))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- chore(release): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+- chore(release): v4.0.0 ([299ccf0](https://github.com/hoyyChoi/yeonseubpun/commit/299ccf0))
+- chore(release): v5.0.0 ([1a482c3](https://github.com/hoyyChoi/yeonseubpun/commit/1a482c3))
+- chore(release): v6.0.0 ([0849e14](https://github.com/hoyyChoi/yeonseubpun/commit/0849e14))
+- build: yml 파일 수정 ([a5cf9b4](https://github.com/hoyyChoi/yeonseubpun/commit/a5cf9b4))
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 6.0.0 (2025-08-13)
+
+- build: yml 파일 수정 ([a5cf9b4](https://github.com/hoyyChoi/yeonseubpun/commit/a5cf9b4))
+- chore: yml 파일 수정 ([53f8793](https://github.com/hoyyChoi/yeonseubpun/commit/53f8793))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- chore(release): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+- chore(release): v4.0.0 ([299ccf0](https://github.com/hoyyChoi/yeonseubpun/commit/299ccf0))
+- chore(release): v5.0.0 ([1a482c3](https://github.com/hoyyChoi/yeonseubpun/commit/1a482c3))
+- feat: changelog.config 파일 수정 ([08cc7d0](https://github.com/hoyyChoi/yeonseubpun/commit/08cc7d0))
+- feat: changelog.config 파일 추가 ([dc89efb](https://github.com/hoyyChoi/yeonseubpun/commit/dc89efb))
+- feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- feat: 커밋 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+- changelog.config 파일 수정 (08cc7d0)
+- changelog.config 파일 추가 (dc89efb)
+- 기능추가 (1bfc77a)
+- 커밋 2 (b711a5a)
+- yml 파일 수정 (53f8793)
+- **release:** v1.0.0 (75c0248)
+- **release:** v2.0.0 (3f40258)
+- **release:** v3.0.0 (5669d34)
+- **release:** v4.0.0 (299ccf0)
+- patch 버전 변경 (0a55b7c)
+- 커밋 2 (2388858)
+- ()
+
+## 4.0.0 (2025-08-12)
+
+- feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- feat: 커밋 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- chore(release): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 3.0.0 (2025-08-12)
+
+- feat: 기능추가 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(release): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 2.0.0 (2025-08-12)
+
+- fix: patch 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- chore(release): v1.0.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 1.0.0 (2025-08-12)
+
+- feat!: major 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
+## 0.3.0 (2025-08-12)
+
+- feat: 테스트코드 6 ([c213306](https://github.com/hoyyChoi/yeonseubpun/commit/c213306))
+
+## 0.2.0 (2025-08-12)
+
+- fix: yml 파일 수정 ([30e016a](https://github.com/hoyyChoi/yeonseubpun/commit/30e016a))
+- fix: yml 파일 수정 ([feae0af](https://github.com/hoyyChoi/yeonseubpun/commit/feae0af))
+- fix: yml 파일 수정 ([2d6f205](https://github.com/hoyyChoi/yeonseubpun/commit/2d6f205))
+- fix: yml 파일 수정 ([9d2762c](https://github.com/hoyyChoi/yeonseubpun/commit/9d2762c))
+- fix: yml 파일 수정 ([54b1d3f](https://github.com/hoyyChoi/yeonseubpun/commit/54b1d3f))
+- feat: 3번째 커밋테스트 ([d8e4265](https://github.com/hoyyChoi/yeonseubpun/commit/d8e4265))
+- feat: 4번째 테스트 ([374b7b3](https://github.com/hoyyChoi/yeonseubpun/commit/374b7b3))
+- feat: changelog.md 추가 ([d9ab735](https://github.com/hoyyChoi/yeonseubpun/commit/d9ab735))
+- feat: feedBack ([73a4df1](https://github.com/hoyyChoi/yeonseubpun/commit/73a4df1))
+- feat: yml 파일 추가 ([640e47f](https://github.com/hoyyChoi/yeonseubpun/commit/640e47f))
+
+## 0.0.0 (2025-08-11)
+
+- feat: 츄거 ([1bfc77a](https://github.com/hoyyChoi/yeonseubpun/commit/1bfc77a))
+- feat: 츄거 2 ([b711a5a](https://github.com/hoyyChoi/yeonseubpun/commit/b711a5a))
+- fix: 츄거 버전 변경 ([0a55b7c](https://github.com/hoyyChoi/yeonseubpun/commit/0a55b7c))
+- fix: 커밋 2 ([2388858](https://github.com/hoyyChoi/yeonseubpun/commit/2388858))
+- chore(츄거): v1.츄거.0 ([75c0248](https://github.com/hoyyChoi/yeonseubpun/commit/75c0248))
+- chore(츄거): v2.0.0 ([3f40258](https://github.com/hoyyChoi/yeonseubpun/commit/3f40258))
+- chore(츄거): v3.0.0 ([5669d34](https://github.com/hoyyChoi/yeonseubpun/commit/5669d34))
+- feat!: 츄거 변경 ([8a98d27](https://github.com/hoyyChoi/yeonseubpun/commit/8a98d27))
+
 ## [0.1.0](https://github.com/hoyyChoi/interview-spark-garden/compare/v1.2.0...v0.1.0) (2025-08-12)
 
 ### Features
 
-* 2번째 테스트 ([0b8e5df](https://github.com/hoyyChoi/interview-spark-garden/commit/0b8e5df7f1d7f99a2d8bfeb1e69eb7414295bf9c))
+- 2번째 테스트 ([0b8e5df](https://github.com/hoyyChoi/interview-spark-garden/commit/0b8e5df7f1d7f99a2d8bfeb1e69eb7414295bf9c))
